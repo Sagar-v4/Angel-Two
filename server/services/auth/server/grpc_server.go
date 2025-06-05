@@ -32,16 +32,17 @@ func (s *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Login
 
 	if req.JwtToken == "" || req.FeedToken == "" {
 		log.Println("Error: Missing required tokens in LoginRequest")
-		// Consider returning a gRPC error status code like codes.InvalidArgument
-		return &pb.LoginResponse{}, nil // Or return an error with status code
+		// For gRPC, it's better to return an error that can be translated to a status code
+		// return nil, status.Errorf(codes.InvalidArgument, "Missing required tokens: jwt_token and feed_token")
+		// For now, sticking to the previous simple error in response, but consider gRPC status errors.
+		return &pb.LoginResponse{UserToken: "" /* Error can be added to LoginResponse if needed */}, nil
 	}
 
-	// Store the received tokens
 	storedID, err := s.tokenStore.Store(req.JwtToken, req.FeedToken, req.RefreshToken)
 	if err != nil {
 		log.Printf("Error storing tokens: %v", err)
-		// Consider returning codes.Internal
-		return &pb.LoginResponse{}, err
+		// return nil, status.Errorf(codes.Internal, "Failed to store tokens: %v", err)
+		return &pb.LoginResponse{UserToken: ""}, err // Or return an error directly
 	}
 	log.Printf("Tokens stored with ID (JTI value): %s", storedID)
 
@@ -51,7 +52,8 @@ func (s *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Login
 		log.Printf("Error generating user_token: %v", err)
 		// Important: If user_token generation fails, consider cleaning up the recently stored tokens
 		s.tokenStore.Delete(storedID)
-		return &pb.LoginResponse{}, err
+		// return nil, status.Errorf(codes.Internal, "Failed to generate user token: %v", err)
+		return &pb.LoginResponse{UserToken: ""}, err
 	}
 	log.Printf("Generated user_token: %.10s...", userTokenString)
 
@@ -62,23 +64,33 @@ func (s *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Login
 func (s *AuthServer) Verify(ctx context.Context, req *pb.VerifyRequest) (*pb.VerifyResponse, error) {
 	log.Printf("Received Verify request for user_token: %.10s...", req.UserToken)
 
+	// Default failure response
+	failureResponse := &pb.VerifyResponse{
+		Success: false,
+		Tokens:  []string{}, // Explicitly an empty slice, though default is nil which marshals similarly
+	}
+
 	if req.UserToken == "" {
 		log.Println("Error: Empty user_token in VerifyRequest")
-		return &pb.VerifyResponse{Success: false}, nil
+		// return nil, status.Errorf(codes.InvalidArgument, "user_token cannot be empty")
+		return failureResponse, nil // Return the specified failure structure
 	}
 
 	// Verify the user_token
 	claims, err := s.jwtManager.Verify(req.UserToken)
 	if err != nil {
 		log.Printf("User_token verification failed: %v", err)
-		return &pb.VerifyResponse{Success: false}, nil // Don't propagate JWT specific errors to client directly
+		// return nil, status.Errorf(codes.Unauthenticated, "Invalid user_token: %v", err)
+		return failureResponse, nil // Return the specified failure structure
 	}
 
-	// Use claims.JTI to retrieve the stored token set
-	storedTokenSet, err := s.tokenStore.Get(claims.JTI) // Changed from claims.StoredTokensDBID
+	// If verification is successful, retrieve the original tokens from the store
+	storedTokenSet, err := s.tokenStore.Get(claims.JTI)
 	if err != nil {
-		log.Printf("Failed to retrieve stored tokens for JTI %s (from claims): %v", claims.JTI, err)
-		return &pb.VerifyResponse{Success: false}, nil
+		log.Printf("Failed to retrieve stored tokens for JTI %s (from claims): %v. This could be due to logout or data loss.", claims.JTI, err)
+		// This case means the JWT was valid, but the associated session data is gone.
+		// return nil, status.Errorf(codes.NotFound, "Session data not found for token JTI: %s", claims.JTI)
+		return failureResponse, nil // Return the specified failure structure
 	}
 
 	log.Printf("User_token verified successfully. JTI: %s", claims.JTI)
