@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package auth;
+option go_package = "github.com/Sagar-v4/Angel-Two/services/auth/gen/auth"; 
+
+message LoginRequest {
+    string jwt_token = 1 [ json_name = "jwt_token" ];
+    string feed_token = 2 [ json_name = "feed_token" ];
+    string refresh_token = 3 [ json_name = "refresh_token" ];
+}
+
+message LoginResponse {
+    string user_token = 1 [ json_name = "user_token" ];
+}
+
+message VerifyRequest {
+    string user_token = 1 [ json_name = "user_token" ];
+}
+
+message VerifyResponse {
+    bool success = 1 [ json_name = "success" ];
+    repeated string tokens = 3 [ json_name = "tokens" ];
+}
+
+service Auth {
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc Verify(VerifyRequest) returns (VerifyResponse);
+}
