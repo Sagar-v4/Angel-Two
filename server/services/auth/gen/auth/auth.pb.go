@@ -21,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type LoginRequest struct {
+type GenerateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	JwtToken      string                 `protobuf:"bytes,1,opt,name=jwt_token,proto3" json:"jwt_token,omitempty"`
 	FeedToken     string                 `protobuf:"bytes,2,opt,name=feed_token,proto3" json:"feed_token,omitempty"`
@@ -30,20 +30,20 @@ type LoginRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginRequest) Reset() {
-	*x = LoginRequest{}
+func (x *GenerateRequest) Reset() {
+	*x = GenerateRequest{}
 	mi := &file_auth_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginRequest) String() string {
+func (x *GenerateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginRequest) ProtoMessage() {}
+func (*GenerateRequest) ProtoMessage() {}
 
-func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+func (x *GenerateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_auth_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,53 +55,53 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
-func (*LoginRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GenerateRequest.ProtoReflect.Descriptor instead.
+func (*GenerateRequest) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *LoginRequest) GetJwtToken() string {
+func (x *GenerateRequest) GetJwtToken() string {
 	if x != nil {
 		return x.JwtToken
 	}
 	return ""
 }
 
-func (x *LoginRequest) GetFeedToken() string {
+func (x *GenerateRequest) GetFeedToken() string {
 	if x != nil {
 		return x.FeedToken
 	}
 	return ""
 }
 
-func (x *LoginRequest) GetRefreshToken() string {
+func (x *GenerateRequest) GetRefreshToken() string {
 	if x != nil {
 		return x.RefreshToken
 	}
 	return ""
 }
 
-type LoginResponse struct {
+type GenerateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserToken     string                 `protobuf:"bytes,1,opt,name=user_token,proto3" json:"user_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginResponse) Reset() {
-	*x = LoginResponse{}
+func (x *GenerateResponse) Reset() {
+	*x = GenerateResponse{}
 	mi := &file_auth_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginResponse) String() string {
+func (x *GenerateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginResponse) ProtoMessage() {}
+func (*GenerateResponse) ProtoMessage() {}
 
-func (x *LoginResponse) ProtoReflect() protoreflect.Message {
+func (x *GenerateResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_auth_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -113,12 +113,12 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
-func (*LoginResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GenerateResponse.ProtoReflect.Descriptor instead.
+func (*GenerateResponse) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LoginResponse) GetUserToken() string {
+func (x *GenerateResponse) GetUserToken() string {
 	if x != nil {
 		return x.UserToken
 	}
@@ -226,14 +226,14 @@ var File_auth_proto protoreflect.FileDescriptor
 const file_auth_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"auth.proto\x12\x04auth\"r\n" +
-	"\fLoginRequest\x12\x1c\n" +
+	"auth.proto\x12\x04auth\"u\n" +
+	"\x0fGenerateRequest\x12\x1c\n" +
 	"\tjwt_token\x18\x01 \x01(\tR\tjwt_token\x12\x1e\n" +
 	"\n" +
 	"feed_token\x18\x02 \x01(\tR\n" +
 	"feed_token\x12$\n" +
-	"\rrefresh_token\x18\x03 \x01(\tR\rrefresh_token\"/\n" +
-	"\rLoginResponse\x12\x1e\n" +
+	"\rrefresh_token\x18\x03 \x01(\tR\rrefresh_token\"2\n" +
+	"\x10GenerateResponse\x12\x1e\n" +
 	"\n" +
 	"user_token\x18\x01 \x01(\tR\n" +
 	"user_token\"/\n" +
@@ -243,9 +243,9 @@ const file_auth_proto_rawDesc = "" +
 	"user_token\"B\n" +
 	"\x0eVerifyResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x16\n" +
-	"\x06tokens\x18\x03 \x03(\tR\x06tokens2m\n" +
-	"\x04Auth\x120\n" +
-	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x123\n" +
+	"\x06tokens\x18\x03 \x03(\tR\x06tokens2v\n" +
+	"\x04Auth\x129\n" +
+	"\bGenerate\x12\x15.auth.GenerateRequest\x1a\x16.auth.GenerateResponse\x123\n" +
 	"\x06Verify\x12\x13.auth.VerifyRequest\x1a\x14.auth.VerifyResponseB6Z4github.com/Sagar-v4/Angel-Two/services/auth/gen/authb\x06proto3"
 
 var (
@@ -262,15 +262,15 @@ func file_auth_proto_rawDescGZIP() []byte {
 
 var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_auth_proto_goTypes = []any{
-	(*LoginRequest)(nil),   // 0: auth.LoginRequest
-	(*LoginResponse)(nil),  // 1: auth.LoginResponse
-	(*VerifyRequest)(nil),  // 2: auth.VerifyRequest
-	(*VerifyResponse)(nil), // 3: auth.VerifyResponse
+	(*GenerateRequest)(nil),  // 0: auth.GenerateRequest
+	(*GenerateResponse)(nil), // 1: auth.GenerateResponse
+	(*VerifyRequest)(nil),    // 2: auth.VerifyRequest
+	(*VerifyResponse)(nil),   // 3: auth.VerifyResponse
 }
 var file_auth_proto_depIdxs = []int32{
-	0, // 0: auth.Auth.Login:input_type -> auth.LoginRequest
+	0, // 0: auth.Auth.Generate:input_type -> auth.GenerateRequest
 	2, // 1: auth.Auth.Verify:input_type -> auth.VerifyRequest
-	1, // 2: auth.Auth.Login:output_type -> auth.LoginResponse
+	1, // 2: auth.Auth.Generate:output_type -> auth.GenerateResponse
 	3, // 3: auth.Auth.Verify:output_type -> auth.VerifyResponse
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type

@@ -25,24 +25,24 @@ func NewAuthServer(tokenStore *store.InMemoryStore, jwtManager *jwt.Manager) *Au
 	}
 }
 
-// Login handles the Login RPC call.
-func (s *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
-	log.Printf("Received Login request: JWT(%.10s...), Feed(%.10s...), Refresh(%.10s...)",
+// Generate handles the Generate RPC call.
+func (s *AuthServer) Generate(ctx context.Context, req *pb.GenerateRequest) (*pb.GenerateResponse, error) {
+	log.Printf("Received Generate request: JWT(%.10s...), Feed(%.10s...), Refresh(%.10s...)",
 		req.JwtToken, req.FeedToken, req.RefreshToken)
 
 	if req.JwtToken == "" || req.FeedToken == "" {
-		log.Println("Error: Missing required tokens in LoginRequest")
+		log.Println("Error: Missing required tokens in GenerateRequest")
 		// For gRPC, it's better to return an error that can be translated to a status code
 		// return nil, status.Errorf(codes.InvalidArgument, "Missing required tokens: jwt_token and feed_token")
 		// For now, sticking to the previous simple error in response, but consider gRPC status errors.
-		return &pb.LoginResponse{UserToken: "" /* Error can be added to LoginResponse if needed */}, nil
+		return &pb.GenerateResponse{UserToken: "" /* Error can be added to GenerateResponse if needed */}, nil
 	}
 
 	storedID, err := s.tokenStore.Store(req.JwtToken, req.FeedToken, req.RefreshToken)
 	if err != nil {
 		log.Printf("Error storing tokens: %v", err)
 		// return nil, status.Errorf(codes.Internal, "Failed to store tokens: %v", err)
-		return &pb.LoginResponse{UserToken: ""}, err // Or return an error directly
+		return &pb.GenerateResponse{UserToken: ""}, err // Or return an error directly
 	}
 	log.Printf("Tokens stored with ID (JTI value): %s", storedID)
 
@@ -53,11 +53,11 @@ func (s *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Login
 		// Important: If user_token generation fails, consider cleaning up the recently stored tokens
 		s.tokenStore.Delete(storedID)
 		// return nil, status.Errorf(codes.Internal, "Failed to generate user token: %v", err)
-		return &pb.LoginResponse{UserToken: ""}, err
+		return &pb.GenerateResponse{UserToken: ""}, err
 	}
 	log.Printf("Generated user_token: %.10s...", userTokenString)
 
-	return &pb.LoginResponse{UserToken: userTokenString}, nil
+	return &pb.GenerateResponse{UserToken: userTokenString}, nil
 }
 
 // Verify handles the Verify RPC call.
