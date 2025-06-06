@@ -5,7 +5,7 @@ import (
 	"log"
 
 	// Use the correct import path based on your go.mod and gen folder
-	pb "github.com/Sagar-v4/Angel-Two/services/auth/gen/auth"
+	pb "github.com/Sagar-v4/Angel-Two/protobuf/gen/auth"
 	"github.com/Sagar-v4/Angel-Two/services/auth/jwt"
 	"github.com/Sagar-v4/Angel-Two/services/auth/store"
 )

@@ -10,7 +10,7 @@ import (
 
 	// Adjust these import paths based on your actual module path and directory structure
 	cfg "github.com/Sagar-v4/Angel-Two/services/auth/config"
-	pb "github.com/Sagar-v4/Angel-Two/services/auth/gen/auth" // Path to generated proto Go files
+	pb "github.com/Sagar-v4/Angel-Two/protobuf/gen/auth" // Path to generated proto Go files
 	jwtm "github.com/Sagar-v4/Angel-Two/services/auth/jwt"
 	authserver "github.com/Sagar-v4/Angel-Two/services/auth/server"
 	"github.com/Sagar-v4/Angel-Two/services/auth/store"

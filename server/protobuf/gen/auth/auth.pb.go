@@ -246,7 +246,7 @@ const file_auth_proto_rawDesc = "" +
 	"\x06tokens\x18\x03 \x03(\tR\x06tokens2v\n" +
 	"\x04Auth\x129\n" +
 	"\bGenerate\x12\x15.auth.GenerateRequest\x1a\x16.auth.GenerateResponse\x123\n" +
-	"\x06Verify\x12\x13.auth.VerifyRequest\x1a\x14.auth.VerifyResponseB6Z4github.com/Sagar-v4/Angel-Two/services/auth/gen/authb\x06proto3"
+	"\x06Verify\x12\x13.auth.VerifyRequest\x1a\x14.auth.VerifyResponseB1Z/github.com/Sagar-v4/Angel-Two/protobuf/gen/authb\x06proto3"
 
 var (
 	file_auth_proto_rawDescOnce sync.Once
