@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Auth_Generate_FullMethodName = "/auth.Auth/Generate"
 	Auth_Verify_FullMethodName   = "/auth.Auth/Verify"
+	Auth_Logout_FullMethodName   = "/auth.Auth/Logout"
 )
 
 // AuthClient is the client API for Auth service.
@@ -28,7 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthClient interface {
 	Generate(ctx context.Context, in *GenerateRequest, opts ...grpc.CallOption) (*GenerateResponse, error)
-	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
+	Verify(ctx context.Context, in *TokenActionRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
+	Logout(ctx context.Context, in *TokenActionRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 }
 
 type authClient struct {
@@ -49,10 +51,20 @@ func (c *authClient) Generate(ctx context.Context, in *GenerateRequest, opts ...
 	return out, nil
 }
 
-func (c *authClient) Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error) {
+func (c *authClient) Verify(ctx context.Context, in *TokenActionRequest, opts ...grpc.CallOption) (*VerifyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VerifyResponse)
 	err := c.cc.Invoke(ctx, Auth_Verify_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authClient) Logout(ctx context.Context, in *TokenActionRequest, opts ...grpc.CallOption) (*LogoutResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LogoutResponse)
+	err := c.cc.Invoke(ctx, Auth_Logout_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +76,8 @@ func (c *authClient) Verify(ctx context.Context, in *VerifyRequest, opts ...grpc
 // for forward compatibility.
 type AuthServer interface {
 	Generate(context.Context, *GenerateRequest) (*GenerateResponse, error)
-	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
+	Verify(context.Context, *TokenActionRequest) (*VerifyResponse, error)
+	Logout(context.Context, *TokenActionRequest) (*LogoutResponse, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -78,8 +91,11 @@ type UnimplementedAuthServer struct{}
 func (UnimplementedAuthServer) Generate(context.Context, *GenerateRequest) (*GenerateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Generate not implemented")
 }
-func (UnimplementedAuthServer) Verify(context.Context, *VerifyRequest) (*VerifyResponse, error) {
+func (UnimplementedAuthServer) Verify(context.Context, *TokenActionRequest) (*VerifyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Verify not implemented")
+}
+func (UnimplementedAuthServer) Logout(context.Context, *TokenActionRequest) (*LogoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 func (UnimplementedAuthServer) testEmbeddedByValue()              {}
@@ -121,7 +137,7 @@ func _Auth_Generate_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _Auth_Verify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyRequest)
+	in := new(TokenActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -133,7 +149,25 @@ func _Auth_Verify_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: Auth_Verify_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Verify(ctx, req.(*VerifyRequest))
+		return srv.(AuthServer).Verify(ctx, req.(*TokenActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Auth_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TokenActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).Logout(ctx, req.(*TokenActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -152,6 +186,10 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Verify",
 			Handler:    _Auth_Verify_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _Auth_Logout_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

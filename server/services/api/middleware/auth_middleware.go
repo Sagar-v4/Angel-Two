@@ -5,17 +5,20 @@ import (
 	"log"
 	"time"
 
+	authpb "github.com/Sagar-v4/Angel-Two/protobuf/gen/auth"
 	"github.com/Sagar-v4/Angel-Two/services/api/clients" // For AuthServiceClientWrapper
 	"github.com/Sagar-v4/Angel-Two/services/api/config"
-	authpb "github.com/Sagar-v4/Angel-Two/protobuf/gen/auth"
 
 	"github.com/gin-gonic/gin"
 )
 
 const (
-	UserTokenContextKey = "userToken"
-	AuthStatusKey       = "authStatus" // "verified", "not_verified", "no_token"
-	UserIDContextKey    = "userID"     // Stores the JTI from a verified token
+	UserTokenContextKey    = "userToken"
+	AuthStatusKey          = "authStatus"          // "verified", "not_verified", "no_token"
+	UserIDContextKey       = "userID"              // Stores the JTI from a verified token
+	VerifiedUserIDKey      = "verifiedUserID"      // JTI from Auth/Verify
+	VerifiedAngelTokensKey = "verifiedAngelTokens" // Slice of [jwt, feed, refresh]
+
 )
 
 // AuthMiddleware checks for user_token cookie and verifies it.
@@ -36,7 +39,7 @@ func AuthMiddleware(authClient *clients.AuthServiceClientWrapper, cfg *config.Co
 		ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 		defer cancel()
 
-		verifyResp, verifyErr := authClient.Client.Verify(ctx, &authpb.VerifyRequest{UserToken: userToken})
+		verifyResp, verifyErr := authClient.Client.Verify(ctx, &authpb.TokenActionRequest{UserToken: userToken})
 
 		if verifyErr != nil {
 			log.Printf("AuthMiddleware: Error verifying token with Auth Service: %v", verifyErr)
@@ -51,14 +54,15 @@ func AuthMiddleware(authClient *clients.AuthServiceClientWrapper, cfg *config.Co
 		if verifyResp != nil && verifyResp.Success {
 			log.Printf("AuthMiddleware: Token verified successfully. JTI: (not directly available from VerifyResponse in this design)")
 			c.Set(AuthStatusKey, "verified")
+			c.Set(VerifiedAngelTokensKey, verifyResp.Tokens)
 			// We don't get JTI directly from current VerifyResponse, but we know it's valid.
 			// If you need JTI, Auth service's VerifyResponse would need to return it.
 			// For now, we'll just mark as verified.
 		} else {
-			log.Printf("AuthMiddleware: Token verification by Auth Service returned Success=false.")
-			c.Set(AuthStatusKey, "not_verified")
-			// Clear the invalid cookie
+			log.Printf("AuthMiddleware: Token verification by Auth Service returned Success=false or RPC error.")
+			c.Set(AuthStatusKey, "not_verified") // Or "verification_failed_rpc_error"
 			c.SetCookie(cfg.UserTokenCookieName, "", -1, cfg.CookiePath, cfg.CookieDomain, cfg.CookieSecure, cfg.CookieHTTPOnly)
+
 		}
 
 		c.Next()

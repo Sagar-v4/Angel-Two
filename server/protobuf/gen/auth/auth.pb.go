@@ -125,27 +125,27 @@ func (x *GenerateResponse) GetUserToken() string {
 	return ""
 }
 
-type VerifyRequest struct {
+type TokenActionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserToken     string                 `protobuf:"bytes,1,opt,name=user_token,proto3" json:"user_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *VerifyRequest) Reset() {
-	*x = VerifyRequest{}
+func (x *TokenActionRequest) Reset() {
+	*x = TokenActionRequest{}
 	mi := &file_auth_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *VerifyRequest) String() string {
+func (x *TokenActionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VerifyRequest) ProtoMessage() {}
+func (*TokenActionRequest) ProtoMessage() {}
 
-func (x *VerifyRequest) ProtoReflect() protoreflect.Message {
+func (x *TokenActionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_auth_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -157,14 +157,66 @@ func (x *VerifyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VerifyRequest.ProtoReflect.Descriptor instead.
-func (*VerifyRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use TokenActionRequest.ProtoReflect.Descriptor instead.
+func (*TokenActionRequest) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *VerifyRequest) GetUserToken() string {
+func (x *TokenActionRequest) GetUserToken() string {
 	if x != nil {
 		return x.UserToken
+	}
+	return ""
+}
+
+type LogoutResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogoutResponse) Reset() {
+	*x = LogoutResponse{}
+	mi := &file_auth_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogoutResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutResponse) ProtoMessage() {}
+
+func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
+func (*LogoutResponse) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LogoutResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *LogoutResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
 	}
 	return ""
 }
@@ -179,7 +231,7 @@ type VerifyResponse struct {
 
 func (x *VerifyResponse) Reset() {
 	*x = VerifyResponse{}
-	mi := &file_auth_proto_msgTypes[3]
+	mi := &file_auth_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -191,7 +243,7 @@ func (x *VerifyResponse) String() string {
 func (*VerifyResponse) ProtoMessage() {}
 
 func (x *VerifyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_proto_msgTypes[3]
+	mi := &file_auth_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -204,7 +256,7 @@ func (x *VerifyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyResponse.ProtoReflect.Descriptor instead.
 func (*VerifyResponse) Descriptor() ([]byte, []int) {
-	return file_auth_proto_rawDescGZIP(), []int{3}
+	return file_auth_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *VerifyResponse) GetSuccess() bool {
@@ -236,17 +288,21 @@ const file_auth_proto_rawDesc = "" +
 	"\x10GenerateResponse\x12\x1e\n" +
 	"\n" +
 	"user_token\x18\x01 \x01(\tR\n" +
-	"user_token\"/\n" +
-	"\rVerifyRequest\x12\x1e\n" +
+	"user_token\"4\n" +
+	"\x12TokenActionRequest\x12\x1e\n" +
 	"\n" +
 	"user_token\x18\x01 \x01(\tR\n" +
-	"user_token\"B\n" +
+	"user_token\"D\n" +
+	"\x0eLogoutResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"B\n" +
 	"\x0eVerifyResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x16\n" +
-	"\x06tokens\x18\x03 \x03(\tR\x06tokens2v\n" +
+	"\x06tokens\x18\x03 \x03(\tR\x06tokens2\xb5\x01\n" +
 	"\x04Auth\x129\n" +
-	"\bGenerate\x12\x15.auth.GenerateRequest\x1a\x16.auth.GenerateResponse\x123\n" +
-	"\x06Verify\x12\x13.auth.VerifyRequest\x1a\x14.auth.VerifyResponseB1Z/github.com/Sagar-v4/Angel-Two/protobuf/gen/authb\x06proto3"
+	"\bGenerate\x12\x15.auth.GenerateRequest\x1a\x16.auth.GenerateResponse\x128\n" +
+	"\x06Verify\x12\x18.auth.TokenActionRequest\x1a\x14.auth.VerifyResponse\x128\n" +
+	"\x06Logout\x12\x18.auth.TokenActionRequest\x1a\x14.auth.LogoutResponseB1Z/github.com/Sagar-v4/Angel-Two/protobuf/gen/authb\x06proto3"
 
 var (
 	file_auth_proto_rawDescOnce sync.Once
@@ -260,20 +316,23 @@ func file_auth_proto_rawDescGZIP() []byte {
 	return file_auth_proto_rawDescData
 }
 
-var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_auth_proto_goTypes = []any{
-	(*GenerateRequest)(nil),  // 0: auth.GenerateRequest
-	(*GenerateResponse)(nil), // 1: auth.GenerateResponse
-	(*VerifyRequest)(nil),    // 2: auth.VerifyRequest
-	(*VerifyResponse)(nil),   // 3: auth.VerifyResponse
+	(*GenerateRequest)(nil),    // 0: auth.GenerateRequest
+	(*GenerateResponse)(nil),   // 1: auth.GenerateResponse
+	(*TokenActionRequest)(nil), // 2: auth.TokenActionRequest
+	(*LogoutResponse)(nil),     // 3: auth.LogoutResponse
+	(*VerifyResponse)(nil),     // 4: auth.VerifyResponse
 }
 var file_auth_proto_depIdxs = []int32{
 	0, // 0: auth.Auth.Generate:input_type -> auth.GenerateRequest
-	2, // 1: auth.Auth.Verify:input_type -> auth.VerifyRequest
-	1, // 2: auth.Auth.Generate:output_type -> auth.GenerateResponse
-	3, // 3: auth.Auth.Verify:output_type -> auth.VerifyResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 1: auth.Auth.Verify:input_type -> auth.TokenActionRequest
+	2, // 2: auth.Auth.Logout:input_type -> auth.TokenActionRequest
+	1, // 3: auth.Auth.Generate:output_type -> auth.GenerateResponse
+	4, // 4: auth.Auth.Verify:output_type -> auth.VerifyResponse
+	3, // 5: auth.Auth.Logout:output_type -> auth.LogoutResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -290,7 +349,7 @@ func file_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_proto_rawDesc), len(file_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

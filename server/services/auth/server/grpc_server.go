@@ -61,7 +61,7 @@ func (s *AuthServer) Generate(ctx context.Context, req *pb.GenerateRequest) (*pb
 }
 
 // Verify handles the Verify RPC call.
-func (s *AuthServer) Verify(ctx context.Context, req *pb.VerifyRequest) (*pb.VerifyResponse, error) {
+func (s *AuthServer) Verify(ctx context.Context, req *pb.TokenActionRequest) (*pb.VerifyResponse, error) {
 	log.Printf("Received Verify request for user_token: %.10s...", req.UserToken)
 
 	// Default failure response

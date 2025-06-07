@@ -15,6 +15,8 @@ type Config struct {
 	CookieHTTPOnly      bool
 	CookieDomain        string
 	CookiePath          string
+	BrokerServiceAddr   string // gRPC address for the Broker service
+
 }
 
 func Load() *Config {
@@ -24,7 +26,8 @@ func Load() *Config {
 
 	return &Config{
 		HTTPPort:            getEnv("API_HTTP_PORT", "8080"),
-		AuthServiceAddr:     getEnv("AUTH_SERVICE_ADDR", "localhost:50051"), // Adjust if auth service is elsewhere
+		AuthServiceAddr:     getEnv("AUTH_SERVICE_ADDR", "localhost:50051"),
+		BrokerServiceAddr:   getEnv("BROKER_SERVICE_ADDR", "localhost:50052"),
 		UserTokenCookieName: getEnv("USER_TOKEN_COOKIE_NAME", "user_session_token"),
 		CookieMaxAge:        getIntEnv("COOKIE_MAX_AGE_SECONDS", int(24*time.Hour.Seconds())),
 		CookieSecure:        cookieSecure,

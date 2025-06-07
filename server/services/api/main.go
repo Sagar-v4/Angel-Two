@@ -16,14 +16,14 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	// "github.com/joho/godotenv" // Uncomment if using .env files for this service
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	// errEnv := godotenv.Load() // Uncomment if using .env
-	// if errEnv != nil {
-	// 	log.Println("Warning: Error loading .env file for api service:", errEnv)
-	// }
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		log.Println("Broker Service: Warning: Error loading .env file:", errEnv)
+	}
 
 	cfg := config.Load()
 
@@ -33,6 +33,13 @@ func main() {
 		log.Fatalf("Could not initialize Auth Service client: %v", err)
 	}
 	defer authClientWrapper.Close()
+
+	// Initialize gRPC Client for Broker Service
+	brokerClientWrapper, err := clients.NewBrokerServiceClient(cfg.BrokerServiceAddr)
+	if err != nil {
+		log.Fatalf("Could not initialize Broker Service client: %v", err)
+	}
+	defer brokerClientWrapper.Close()
 
 	// Initialize Gin router
 	// gin.SetMode(gin.ReleaseMode) // For production
@@ -54,11 +61,14 @@ func main() {
 	apiGroup.Use(middleware.AuthMiddleware(authClientWrapper, cfg)) // Global for /api group
 
 	// Initialize Handlers
-	apiAuthHandler := handlers.NewAPIAuthHandler(authClientWrapper, cfg)
+	apiAuthHandler := handlers.NewAPIAuthHandler(authClientWrapper, brokerClientWrapper, cfg) // Pass both clients
+	profileHandler := handlers.NewProfileHandler(brokerClientWrapper, cfg)
 
 	// API Routes
 	apiGroup.POST("/login", apiAuthHandler.Login)
-	apiGroup.GET("/auth_status", apiAuthHandler.AuthStatus) // Example route
+	apiGroup.GET("/auth_status", apiAuthHandler.AuthStatus)
+	apiGroup.POST("/logout", apiAuthHandler.Logout)
+	apiGroup.GET("/profile", profileHandler.GetProfile)
 
 	// You can add other routes here that will also have the AuthMiddleware applied
 	// e.g., apiGroup.GET("/profile", profileHandler.GetProfile)

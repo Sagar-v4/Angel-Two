@@ -13,8 +13,13 @@ message GenerateResponse {
     string user_token = 1 [ json_name = "user_token" ];
 }
 
-message VerifyRequest {
+message TokenActionRequest {
     string user_token = 1 [ json_name = "user_token" ];
+}
+
+message LogoutResponse {
+    bool success = 1 [ json_name = "success" ];
+    string message = 2 [ json_name = "message" ];
 }
 
 message VerifyResponse {
@@ -24,5 +29,6 @@ message VerifyResponse {
 
 service Auth {
     rpc Generate(GenerateRequest) returns (GenerateResponse);
-    rpc Verify(VerifyRequest) returns (VerifyResponse);
+    rpc Verify(TokenActionRequest) returns (VerifyResponse);
+    rpc Logout(TokenActionRequest) returns (LogoutResponse); 
 }

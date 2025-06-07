@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package broker;
+option go_package = "github.com/Sagar-v4/Angel-Two/protobuf/gen/broker";
+
+message AngelOneProfileData {
+    string clientcode = 1;
+    string name = 2;
+    string email = 3;
+    string mobileno = 4;
+    repeated string exchanges = 5; // Consider parsing this into repeated string if needed
+    repeated string products = 6;  // Consider parsing this into repeated string if needed
+    string lastlogintime = 7;
+    string broker = 8;
+}
+
+message GetProfileRequest {
+    // string user_id = 1; // The internal JTI from Auth service, if needed for context/logging
+    string angel_one_jwt = 2; // The primary token needed for Angel One API call
+    // Potentially other Angel One specific headers if they vary per user and aren't fixed
+    string client_local_ip = 3; // From client request
+    string client_public_ip = 4; // From client request
+    string mac_address = 5;     // From client request (if available)
+}
+
+message GetProfileResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    AngelOneProfileData data = 4;
+}
+
+message LogoutRequest {
+    string angel_one_jwt = 1;     // For Authorization header
+    string client_code = 2;       // For the request body to Angel One
+    // Optional headers similar to GetProfile if needed by Angel One logout
+    string client_local_ip = 3;
+    string client_public_ip = 4;
+    string mac_address = 5;
+}
+
+message LogoutResponse {
+    bool status = 1;              // From Angel One response
+    string message = 2;           // From Angel One response
+    string errorcode = 3;         // From Angel One response
+    // Optionally, add a field for data if Angel One logout returns any specific data
+}
+
+service BrokerService {
+    rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+    rpc Logout(LogoutRequest) returns (LogoutResponse);
+}

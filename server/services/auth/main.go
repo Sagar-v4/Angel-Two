@@ -9,17 +9,23 @@ import (
 	"syscall"
 
 	// Adjust these import paths based on your actual module path and directory structure
-	cfg "github.com/Sagar-v4/Angel-Two/services/auth/config"
 	pb "github.com/Sagar-v4/Angel-Two/protobuf/gen/auth" // Path to generated proto Go files
+	cfg "github.com/Sagar-v4/Angel-Two/services/auth/config"
 	jwtm "github.com/Sagar-v4/Angel-Two/services/auth/jwt"
 	authserver "github.com/Sagar-v4/Angel-Two/services/auth/server"
 	"github.com/Sagar-v4/Angel-Two/services/auth/store"
 
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection" // For tools like grpcurl
 )
 
 func main() {
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		log.Println("Broker Service: Warning: Error loading .env file:", errEnv)
+	}
+
 	config := cfg.Load()
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", config.GRPCPort))
