@@ -83,18 +83,18 @@ func (h *APIAuthHandler) Login(c *gin.Context) {
 	}
 
 	// Set the new user_token as a cookie
-	c.SetCookie(
-		h.cfg.UserTokenCookieName,
-		loginResp.UserToken,
-		h.cfg.CookieMaxAge,
-		h.cfg.CookiePath,
-		h.cfg.CookieDomain,
-		h.cfg.CookieSecure,
-		h.cfg.CookieHTTPOnly,
-	)
+	// c.SetCookie(
+	// 	h.cfg.UserTokenCookieName,
+	// 	loginResp.UserToken,
+	// 	h.cfg.CookieMaxAge,
+	// 	h.cfg.CookiePath,
+	// 	h.cfg.CookieDomain,
+	// 	h.cfg.CookieSecure,
+	// 	h.cfg.CookieHTTPOnly,
+	// )
 
 	log.Printf("API Login: Login successful. User token cookie set.")
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user_token_status": "set"})
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "user_token": loginResp.UserToken})
 }
 
 // Example: GET /api/auth_status (A simple endpoint to test the middleware)
