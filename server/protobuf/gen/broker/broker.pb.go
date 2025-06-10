@@ -21,6 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// --- Profile Data ---
 type AngelOneProfileData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Clientcode    string                 `protobuf:"bytes,1,opt,name=clientcode,proto3" json:"clientcode,omitempty"`
@@ -259,6 +260,1807 @@ func (x *GetProfileResponse) GetData() *AngelOneProfileData {
 	return nil
 }
 
+// --- Order Placement ---
+type PlaceOrderRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	AngelOneJwt string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"`
+	// Angel One Order Params
+	Variety         string  `protobuf:"bytes,2,opt,name=variety,proto3" json:"variety,omitempty"`
+	Tradingsymbol   string  `protobuf:"bytes,3,opt,name=tradingsymbol,proto3" json:"tradingsymbol,omitempty"`
+	Symboltoken     string  `protobuf:"bytes,4,opt,name=symboltoken,proto3" json:"symboltoken,omitempty"`
+	Transactiontype string  `protobuf:"bytes,5,opt,name=transactiontype,proto3" json:"transactiontype,omitempty"`
+	Exchange        string  `protobuf:"bytes,6,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	Ordertype       string  `protobuf:"bytes,7,opt,name=ordertype,proto3" json:"ordertype,omitempty"`
+	Producttype     string  `protobuf:"bytes,8,opt,name=producttype,proto3" json:"producttype,omitempty"`
+	Duration        string  `protobuf:"bytes,9,opt,name=duration,proto3" json:"duration,omitempty"`
+	Price           float64 `protobuf:"fixed64,10,opt,name=price,proto3" json:"price,omitempty"`
+	Squareoff       float64 `protobuf:"fixed64,11,opt,name=squareoff,proto3" json:"squareoff,omitempty"`
+	Stoploss        float64 `protobuf:"fixed64,12,opt,name=stoploss,proto3" json:"stoploss,omitempty"`
+	Quantity        int32   `protobuf:"varint,13,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	// Headers from API service if needed
+	ClientLocalIp  string `protobuf:"bytes,20,opt,name=client_local_ip,json=clientLocalIp,proto3" json:"client_local_ip,omitempty"`
+	ClientPublicIp string `protobuf:"bytes,21,opt,name=client_public_ip,json=clientPublicIp,proto3" json:"client_public_ip,omitempty"`
+	MacAddress     string `protobuf:"bytes,22,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *PlaceOrderRequest) Reset() {
+	*x = PlaceOrderRequest{}
+	mi := &file_broker_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlaceOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlaceOrderRequest) ProtoMessage() {}
+
+func (x *PlaceOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlaceOrderRequest.ProtoReflect.Descriptor instead.
+func (*PlaceOrderRequest) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PlaceOrderRequest) GetAngelOneJwt() string {
+	if x != nil {
+		return x.AngelOneJwt
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetVariety() string {
+	if x != nil {
+		return x.Variety
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetTradingsymbol() string {
+	if x != nil {
+		return x.Tradingsymbol
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetSymboltoken() string {
+	if x != nil {
+		return x.Symboltoken
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetTransactiontype() string {
+	if x != nil {
+		return x.Transactiontype
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetOrdertype() string {
+	if x != nil {
+		return x.Ordertype
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetProducttype() string {
+	if x != nil {
+		return x.Producttype
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetDuration() string {
+	if x != nil {
+		return x.Duration
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetPrice() float64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *PlaceOrderRequest) GetSquareoff() float64 {
+	if x != nil {
+		return x.Squareoff
+	}
+	return 0
+}
+
+func (x *PlaceOrderRequest) GetStoploss() float64 {
+	if x != nil {
+		return x.Stoploss
+	}
+	return 0
+}
+
+func (x *PlaceOrderRequest) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *PlaceOrderRequest) GetClientLocalIp() string {
+	if x != nil {
+		return x.ClientLocalIp
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetClientPublicIp() string {
+	if x != nil {
+		return x.ClientPublicIp
+	}
+	return ""
+}
+
+func (x *PlaceOrderRequest) GetMacAddress() string {
+	if x != nil {
+		return x.MacAddress
+	}
+	return ""
+}
+
+type PlaceOrderAngelData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Script        string                 `protobuf:"bytes,1,opt,name=script,proto3" json:"script,omitempty"`
+	Orderid       string                 `protobuf:"bytes,2,opt,name=orderid,proto3" json:"orderid,omitempty"` // Add other fields from Angel One's "data" object if present and needed
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlaceOrderAngelData) Reset() {
+	*x = PlaceOrderAngelData{}
+	mi := &file_broker_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlaceOrderAngelData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlaceOrderAngelData) ProtoMessage() {}
+
+func (x *PlaceOrderAngelData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlaceOrderAngelData.ProtoReflect.Descriptor instead.
+func (*PlaceOrderAngelData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PlaceOrderAngelData) GetScript() string {
+	if x != nil {
+		return x.Script
+	}
+	return ""
+}
+
+func (x *PlaceOrderAngelData) GetOrderid() string {
+	if x != nil {
+		return x.Orderid
+	}
+	return ""
+}
+
+type PlaceOrderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        bool                   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Errorcode     string                 `protobuf:"bytes,3,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Data          *PlaceOrderAngelData   `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlaceOrderResponse) Reset() {
+	*x = PlaceOrderResponse{}
+	mi := &file_broker_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlaceOrderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlaceOrderResponse) ProtoMessage() {}
+
+func (x *PlaceOrderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlaceOrderResponse.ProtoReflect.Descriptor instead.
+func (*PlaceOrderResponse) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *PlaceOrderResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *PlaceOrderResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *PlaceOrderResponse) GetErrorcode() string {
+	if x != nil {
+		return x.Errorcode
+	}
+	return ""
+}
+
+func (x *PlaceOrderResponse) GetData() *PlaceOrderAngelData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// --- Cancel Order ---
+type CancelOrderRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	AngelOneJwt string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"`
+	Variety     string                 `protobuf:"bytes,2,opt,name=variety,proto3" json:"variety,omitempty"`
+	Orderid     string                 `protobuf:"bytes,3,opt,name=orderid,proto3" json:"orderid,omitempty"`
+	// Headers
+	ClientLocalIp  string `protobuf:"bytes,10,opt,name=client_local_ip,json=clientLocalIp,proto3" json:"client_local_ip,omitempty"`
+	ClientPublicIp string `protobuf:"bytes,11,opt,name=client_public_ip,json=clientPublicIp,proto3" json:"client_public_ip,omitempty"`
+	MacAddress     string `protobuf:"bytes,12,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CancelOrderRequest) Reset() {
+	*x = CancelOrderRequest{}
+	mi := &file_broker_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelOrderRequest) ProtoMessage() {}
+
+func (x *CancelOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelOrderRequest.ProtoReflect.Descriptor instead.
+func (*CancelOrderRequest) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CancelOrderRequest) GetAngelOneJwt() string {
+	if x != nil {
+		return x.AngelOneJwt
+	}
+	return ""
+}
+
+func (x *CancelOrderRequest) GetVariety() string {
+	if x != nil {
+		return x.Variety
+	}
+	return ""
+}
+
+func (x *CancelOrderRequest) GetOrderid() string {
+	if x != nil {
+		return x.Orderid
+	}
+	return ""
+}
+
+func (x *CancelOrderRequest) GetClientLocalIp() string {
+	if x != nil {
+		return x.ClientLocalIp
+	}
+	return ""
+}
+
+func (x *CancelOrderRequest) GetClientPublicIp() string {
+	if x != nil {
+		return x.ClientPublicIp
+	}
+	return ""
+}
+
+func (x *CancelOrderRequest) GetMacAddress() string {
+	if x != nil {
+		return x.MacAddress
+	}
+	return ""
+}
+
+type CancelOrderAngelData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Orderid       string                 `protobuf:"bytes,1,opt,name=orderid,proto3" json:"orderid,omitempty"` // Add other fields if present
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelOrderAngelData) Reset() {
+	*x = CancelOrderAngelData{}
+	mi := &file_broker_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelOrderAngelData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelOrderAngelData) ProtoMessage() {}
+
+func (x *CancelOrderAngelData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelOrderAngelData.ProtoReflect.Descriptor instead.
+func (*CancelOrderAngelData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CancelOrderAngelData) GetOrderid() string {
+	if x != nil {
+		return x.Orderid
+	}
+	return ""
+}
+
+type CancelOrderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        bool                   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Errorcode     string                 `protobuf:"bytes,3,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Data          *CancelOrderAngelData  `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelOrderResponse) Reset() {
+	*x = CancelOrderResponse{}
+	mi := &file_broker_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelOrderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelOrderResponse) ProtoMessage() {}
+
+func (x *CancelOrderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelOrderResponse.ProtoReflect.Descriptor instead.
+func (*CancelOrderResponse) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CancelOrderResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *CancelOrderResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CancelOrderResponse) GetErrorcode() string {
+	if x != nil {
+		return x.Errorcode
+	}
+	return ""
+}
+
+func (x *CancelOrderResponse) GetData() *CancelOrderAngelData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// --- Portfolio Holdings ---
+type HoldingItemData struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Tradingsymbol      string                 `protobuf:"bytes,1,opt,name=tradingsymbol,proto3" json:"tradingsymbol,omitempty"`
+	Exchange           string                 `protobuf:"bytes,2,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	Isin               string                 `protobuf:"bytes,3,opt,name=isin,proto3" json:"isin,omitempty"`
+	T1Quantity         int32                  `protobuf:"varint,4,opt,name=t1quantity,proto3" json:"t1quantity,omitempty"`                 // from JSON t1quantity
+	Realisedquantity   int32                  `protobuf:"varint,5,opt,name=realisedquantity,proto3" json:"realisedquantity,omitempty"`     // from JSON realisedquantity
+	Quantity           int32                  `protobuf:"varint,6,opt,name=quantity,proto3" json:"quantity,omitempty"`                     // from JSON quantity
+	Authorisedquantity int32                  `protobuf:"varint,7,opt,name=authorisedquantity,proto3" json:"authorisedquantity,omitempty"` // from JSON authorisedquantity
+	Product            string                 `protobuf:"bytes,8,opt,name=product,proto3" json:"product,omitempty"`
+	// collateralquantity and collateraltype can be null, handle as optional or string
+	// For simplicity, using string and checking for null during unmarshal if needed,
+	// or use google.protobuf.Int32Value for nullable integers if you add it.
+	// Protobuf basic types are not inherently nullable in proto3 unless wrapped.
+	// For now, let's try int32 for collateralquantity and see if nulls are treated as 0.
+	// If Angel sends 'null', and Go's json unmarshaller tries to put it into int32, it will error.
+	// A safer bet for fields that can be 'null' is to use string or wrapper types.
+	// Let's assume for now `collateralquantity` will be 0 if null.
+	Collateralquantity int32   `protobuf:"varint,9,opt,name=collateralquantity,proto3" json:"collateralquantity,omitempty"` // from JSON collateralquantity (handle null)
+	Collateraltype     string  `protobuf:"bytes,10,opt,name=collateraltype,proto3" json:"collateraltype,omitempty"`         // from JSON collateraltype (handle null)
+	Haircut            float64 `protobuf:"fixed64,11,opt,name=haircut,proto3" json:"haircut,omitempty"`                     // from JSON haircut
+	Averageprice       float64 `protobuf:"fixed64,12,opt,name=averageprice,proto3" json:"averageprice,omitempty"`
+	Ltp                float64 `protobuf:"fixed64,13,opt,name=ltp,proto3" json:"ltp,omitempty"`
+	Symboltoken        string  `protobuf:"bytes,14,opt,name=symboltoken,proto3" json:"symboltoken,omitempty"`
+	Close              float64 `protobuf:"fixed64,15,opt,name=close,proto3" json:"close,omitempty"` // JSON close is a number
+	Profitandloss      float64 `protobuf:"fixed64,16,opt,name=profitandloss,proto3" json:"profitandloss,omitempty"`
+	Pnlpercentage      float64 `protobuf:"fixed64,17,opt,name=pnlpercentage,proto3" json:"pnlpercentage,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *HoldingItemData) Reset() {
+	*x = HoldingItemData{}
+	mi := &file_broker_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HoldingItemData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HoldingItemData) ProtoMessage() {}
+
+func (x *HoldingItemData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HoldingItemData.ProtoReflect.Descriptor instead.
+func (*HoldingItemData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *HoldingItemData) GetTradingsymbol() string {
+	if x != nil {
+		return x.Tradingsymbol
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetIsin() string {
+	if x != nil {
+		return x.Isin
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetT1Quantity() int32 {
+	if x != nil {
+		return x.T1Quantity
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetRealisedquantity() int32 {
+	if x != nil {
+		return x.Realisedquantity
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetAuthorisedquantity() int32 {
+	if x != nil {
+		return x.Authorisedquantity
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetProduct() string {
+	if x != nil {
+		return x.Product
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetCollateralquantity() int32 {
+	if x != nil {
+		return x.Collateralquantity
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetCollateraltype() string {
+	if x != nil {
+		return x.Collateraltype
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetHaircut() float64 {
+	if x != nil {
+		return x.Haircut
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetAverageprice() float64 {
+	if x != nil {
+		return x.Averageprice
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetLtp() float64 {
+	if x != nil {
+		return x.Ltp
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetSymboltoken() string {
+	if x != nil {
+		return x.Symboltoken
+	}
+	return ""
+}
+
+func (x *HoldingItemData) GetClose() float64 {
+	if x != nil {
+		return x.Close
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetProfitandloss() float64 {
+	if x != nil {
+		return x.Profitandloss
+	}
+	return 0
+}
+
+func (x *HoldingItemData) GetPnlpercentage() float64 {
+	if x != nil {
+		return x.Pnlpercentage
+	}
+	return 0
+}
+
+type TotalHoldingValue struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Totalholdingvalue  float64                `protobuf:"fixed64,1,opt,name=totalholdingvalue,proto3" json:"totalholdingvalue,omitempty"`
+	Totalinvvalue      float64                `protobuf:"fixed64,2,opt,name=totalinvvalue,proto3" json:"totalinvvalue,omitempty"`
+	Totalprofitandloss float64                `protobuf:"fixed64,3,opt,name=totalprofitandloss,proto3" json:"totalprofitandloss,omitempty"`
+	Totalpnlpercentage float64                `protobuf:"fixed64,4,opt,name=totalpnlpercentage,proto3" json:"totalpnlpercentage,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *TotalHoldingValue) Reset() {
+	*x = TotalHoldingValue{}
+	mi := &file_broker_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TotalHoldingValue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TotalHoldingValue) ProtoMessage() {}
+
+func (x *TotalHoldingValue) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TotalHoldingValue.ProtoReflect.Descriptor instead.
+func (*TotalHoldingValue) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *TotalHoldingValue) GetTotalholdingvalue() float64 {
+	if x != nil {
+		return x.Totalholdingvalue
+	}
+	return 0
+}
+
+func (x *TotalHoldingValue) GetTotalinvvalue() float64 {
+	if x != nil {
+		return x.Totalinvvalue
+	}
+	return 0
+}
+
+func (x *TotalHoldingValue) GetTotalprofitandloss() float64 {
+	if x != nil {
+		return x.Totalprofitandloss
+	}
+	return 0
+}
+
+func (x *TotalHoldingValue) GetTotalpnlpercentage() float64 {
+	if x != nil {
+		return x.Totalpnlpercentage
+	}
+	return 0
+}
+
+type PortfolioHoldingsData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Holdings      []*HoldingItemData     `protobuf:"bytes,1,rep,name=holdings,proto3" json:"holdings,omitempty"`
+	Totalholding  *TotalHoldingValue     `protobuf:"bytes,2,opt,name=totalholding,proto3" json:"totalholding,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PortfolioHoldingsData) Reset() {
+	*x = PortfolioHoldingsData{}
+	mi := &file_broker_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PortfolioHoldingsData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PortfolioHoldingsData) ProtoMessage() {}
+
+func (x *PortfolioHoldingsData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PortfolioHoldingsData.ProtoReflect.Descriptor instead.
+func (*PortfolioHoldingsData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *PortfolioHoldingsData) GetHoldings() []*HoldingItemData {
+	if x != nil {
+		return x.Holdings
+	}
+	return nil
+}
+
+func (x *PortfolioHoldingsData) GetTotalholding() *TotalHoldingValue {
+	if x != nil {
+		return x.Totalholding
+	}
+	return nil
+}
+
+type GetHoldingsRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	AngelOneJwt    string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"`
+	ClientLocalIp  string                 `protobuf:"bytes,10,opt,name=client_local_ip,json=clientLocalIp,proto3" json:"client_local_ip,omitempty"`
+	ClientPublicIp string                 `protobuf:"bytes,11,opt,name=client_public_ip,json=clientPublicIp,proto3" json:"client_public_ip,omitempty"`
+	MacAddress     string                 `protobuf:"bytes,12,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetHoldingsRequest) Reset() {
+	*x = GetHoldingsRequest{}
+	mi := &file_broker_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHoldingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHoldingsRequest) ProtoMessage() {}
+
+func (x *GetHoldingsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHoldingsRequest.ProtoReflect.Descriptor instead.
+func (*GetHoldingsRequest) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetHoldingsRequest) GetAngelOneJwt() string {
+	if x != nil {
+		return x.AngelOneJwt
+	}
+	return ""
+}
+
+func (x *GetHoldingsRequest) GetClientLocalIp() string {
+	if x != nil {
+		return x.ClientLocalIp
+	}
+	return ""
+}
+
+func (x *GetHoldingsRequest) GetClientPublicIp() string {
+	if x != nil {
+		return x.ClientPublicIp
+	}
+	return ""
+}
+
+func (x *GetHoldingsRequest) GetMacAddress() string {
+	if x != nil {
+		return x.MacAddress
+	}
+	return ""
+}
+
+type GetHoldingsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        bool                   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Errorcode     string                 `protobuf:"bytes,3,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Data          *PortfolioHoldingsData `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"` // <<< CHANGED to use the new wrapper
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHoldingsResponse) Reset() {
+	*x = GetHoldingsResponse{}
+	mi := &file_broker_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHoldingsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHoldingsResponse) ProtoMessage() {}
+
+func (x *GetHoldingsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHoldingsResponse.ProtoReflect.Descriptor instead.
+func (*GetHoldingsResponse) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetHoldingsResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *GetHoldingsResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetHoldingsResponse) GetErrorcode() string {
+	if x != nil {
+		return x.Errorcode
+	}
+	return ""
+}
+
+func (x *GetHoldingsResponse) GetData() *PortfolioHoldingsData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// Common structure for identifying a symbol
+type SymbolIdentifier struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exchange      string                 `protobuf:"bytes,1,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	SymbolToken   string                 `protobuf:"bytes,2,opt,name=symbol_token,json=symbolToken,proto3" json:"symbol_token,omitempty"` // Angel One uses "symboltoken"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SymbolIdentifier) Reset() {
+	*x = SymbolIdentifier{}
+	mi := &file_broker_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SymbolIdentifier) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SymbolIdentifier) ProtoMessage() {}
+
+func (x *SymbolIdentifier) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SymbolIdentifier.ProtoReflect.Descriptor instead.
+func (*SymbolIdentifier) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *SymbolIdentifier) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *SymbolIdentifier) GetSymbolToken() string {
+	if x != nil {
+		return x.SymbolToken
+	}
+	return ""
+}
+
+// For LTP Mode
+type LTPData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exchange      string                 `protobuf:"bytes,1,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	TradingSymbol string                 `protobuf:"bytes,2,opt,name=trading_symbol,json=tradingSymbol,proto3" json:"trading_symbol,omitempty"`
+	SymbolToken   string                 `protobuf:"bytes,3,opt,name=symbol_token,json=symbolToken,proto3" json:"symbol_token,omitempty"`
+	Ltp           float64                `protobuf:"fixed64,4,opt,name=ltp,proto3" json:"ltp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LTPData) Reset() {
+	*x = LTPData{}
+	mi := &file_broker_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LTPData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LTPData) ProtoMessage() {}
+
+func (x *LTPData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LTPData.ProtoReflect.Descriptor instead.
+func (*LTPData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *LTPData) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *LTPData) GetTradingSymbol() string {
+	if x != nil {
+		return x.TradingSymbol
+	}
+	return ""
+}
+
+func (x *LTPData) GetSymbolToken() string {
+	if x != nil {
+		return x.SymbolToken
+	}
+	return ""
+}
+
+func (x *LTPData) GetLtp() float64 {
+	if x != nil {
+		return x.Ltp
+	}
+	return 0
+}
+
+// For Depth (Buy/Sell Orders)
+type MarketDepthItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Price         float64                `protobuf:"fixed64,1,opt,name=price,proto3" json:"price,omitempty"`
+	Quantity      int32                  `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Orders        int32                  `protobuf:"varint,3,opt,name=orders,proto3" json:"orders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarketDepthItem) Reset() {
+	*x = MarketDepthItem{}
+	mi := &file_broker_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarketDepthItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarketDepthItem) ProtoMessage() {}
+
+func (x *MarketDepthItem) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarketDepthItem.ProtoReflect.Descriptor instead.
+func (*MarketDepthItem) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *MarketDepthItem) GetPrice() float64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *MarketDepthItem) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+func (x *MarketDepthItem) GetOrders() int32 {
+	if x != nil {
+		return x.Orders
+	}
+	return 0
+}
+
+type MarketDepth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Buy           []*MarketDepthItem     `protobuf:"bytes,1,rep,name=buy,proto3" json:"buy,omitempty"`
+	Sell          []*MarketDepthItem     `protobuf:"bytes,2,rep,name=sell,proto3" json:"sell,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MarketDepth) Reset() {
+	*x = MarketDepth{}
+	mi := &file_broker_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarketDepth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarketDepth) ProtoMessage() {}
+
+func (x *MarketDepth) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarketDepth.ProtoReflect.Descriptor instead.
+func (*MarketDepth) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *MarketDepth) GetBuy() []*MarketDepthItem {
+	if x != nil {
+		return x.Buy
+	}
+	return nil
+}
+
+func (x *MarketDepth) GetSell() []*MarketDepthItem {
+	if x != nil {
+		return x.Sell
+	}
+	return nil
+}
+
+// For Full Quote Mode
+type FullQuoteData struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Exchange         string                 `protobuf:"bytes,1,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	TradingSymbol    string                 `protobuf:"bytes,2,opt,name=trading_symbol,json=tradingSymbol,proto3" json:"trading_symbol,omitempty"`
+	SymbolToken      string                 `protobuf:"bytes,3,opt,name=symbol_token,json=symbolToken,proto3" json:"symbol_token,omitempty"`
+	Ltp              float64                `protobuf:"fixed64,4,opt,name=ltp,proto3" json:"ltp,omitempty"`
+	Open             float64                `protobuf:"fixed64,5,opt,name=open,proto3" json:"open,omitempty"`
+	High             float64                `protobuf:"fixed64,6,opt,name=high,proto3" json:"high,omitempty"`
+	Low              float64                `protobuf:"fixed64,7,opt,name=low,proto3" json:"low,omitempty"`
+	Close            float64                `protobuf:"fixed64,8,opt,name=close,proto3" json:"close,omitempty"`
+	LastTradeQty     int64                  `protobuf:"varint,9,opt,name=last_trade_qty,json=lastTradeQty,proto3" json:"last_trade_qty,omitempty"`               // from lastTradeQty
+	ExchFeedTime     string                 `protobuf:"bytes,10,opt,name=exch_feed_time,json=exchFeedTime,proto3" json:"exch_feed_time,omitempty"`               // from exchFeedTime
+	ExchTradeTime    string                 `protobuf:"bytes,11,opt,name=exch_trade_time,json=exchTradeTime,proto3" json:"exch_trade_time,omitempty"`            // from exchTradeTime
+	NetChange        float64                `protobuf:"fixed64,12,opt,name=net_change,json=netChange,proto3" json:"net_change,omitempty"`                        // from netChange
+	PercentChange    float64                `protobuf:"fixed64,13,opt,name=percent_change,json=percentChange,proto3" json:"percent_change,omitempty"`            // from percentChange
+	AvgPrice         float64                `protobuf:"fixed64,14,opt,name=avg_price,json=avgPrice,proto3" json:"avg_price,omitempty"`                           // from avgPrice
+	TradeVolume      int64                  `protobuf:"varint,15,opt,name=trade_volume,json=tradeVolume,proto3" json:"trade_volume,omitempty"`                   // from tradeVolume
+	OpnInterest      int64                  `protobuf:"varint,16,opt,name=opn_interest,json=opnInterest,proto3" json:"opn_interest,omitempty"`                   // from opnInterest
+	LowerCircuit     float64                `protobuf:"fixed64,17,opt,name=lower_circuit,json=lowerCircuit,proto3" json:"lower_circuit,omitempty"`               // from lowerCircuit
+	UpperCircuit     float64                `protobuf:"fixed64,18,opt,name=upper_circuit,json=upperCircuit,proto3" json:"upper_circuit,omitempty"`               // from upperCircuit
+	TotBuyQuan       int64                  `protobuf:"varint,19,opt,name=tot_buy_quan,json=totBuyQuan,proto3" json:"tot_buy_quan,omitempty"`                    // from totBuyQuan
+	TotSellQuan      int64                  `protobuf:"varint,20,opt,name=tot_sell_quan,json=totSellQuan,proto3" json:"tot_sell_quan,omitempty"`                 // from totSellQuan
+	FiftyTwoWeekLow  string                 `protobuf:"bytes,21,opt,name=fifty_two_week_low,json=fiftyTwoWeekLow,proto3" json:"fifty_two_week_low,omitempty"`    // from 52WeekLow (Angel sends as string/number, safer as string)
+	FiftyTwoWeekHigh string                 `protobuf:"bytes,22,opt,name=fifty_two_week_high,json=fiftyTwoWeekHigh,proto3" json:"fifty_two_week_high,omitempty"` // from 52WeekHigh (Angel sends as string/number, safer as string)
+	Depth            *MarketDepth           `protobuf:"bytes,23,opt,name=depth,proto3" json:"depth,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *FullQuoteData) Reset() {
+	*x = FullQuoteData{}
+	mi := &file_broker_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FullQuoteData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FullQuoteData) ProtoMessage() {}
+
+func (x *FullQuoteData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FullQuoteData.ProtoReflect.Descriptor instead.
+func (*FullQuoteData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *FullQuoteData) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetTradingSymbol() string {
+	if x != nil {
+		return x.TradingSymbol
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetSymbolToken() string {
+	if x != nil {
+		return x.SymbolToken
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetLtp() float64 {
+	if x != nil {
+		return x.Ltp
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetOpen() float64 {
+	if x != nil {
+		return x.Open
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetHigh() float64 {
+	if x != nil {
+		return x.High
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetLow() float64 {
+	if x != nil {
+		return x.Low
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetClose() float64 {
+	if x != nil {
+		return x.Close
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetLastTradeQty() int64 {
+	if x != nil {
+		return x.LastTradeQty
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetExchFeedTime() string {
+	if x != nil {
+		return x.ExchFeedTime
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetExchTradeTime() string {
+	if x != nil {
+		return x.ExchTradeTime
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetNetChange() float64 {
+	if x != nil {
+		return x.NetChange
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetPercentChange() float64 {
+	if x != nil {
+		return x.PercentChange
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetAvgPrice() float64 {
+	if x != nil {
+		return x.AvgPrice
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetTradeVolume() int64 {
+	if x != nil {
+		return x.TradeVolume
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetOpnInterest() int64 {
+	if x != nil {
+		return x.OpnInterest
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetLowerCircuit() float64 {
+	if x != nil {
+		return x.LowerCircuit
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetUpperCircuit() float64 {
+	if x != nil {
+		return x.UpperCircuit
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetTotBuyQuan() int64 {
+	if x != nil {
+		return x.TotBuyQuan
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetTotSellQuan() int64 {
+	if x != nil {
+		return x.TotSellQuan
+	}
+	return 0
+}
+
+func (x *FullQuoteData) GetFiftyTwoWeekLow() string {
+	if x != nil {
+		return x.FiftyTwoWeekLow
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetFiftyTwoWeekHigh() string {
+	if x != nil {
+		return x.FiftyTwoWeekHigh
+	}
+	return ""
+}
+
+func (x *FullQuoteData) GetDepth() *MarketDepth {
+	if x != nil {
+		return x.Depth
+	}
+	return nil
+}
+
+// Common structure for unfetched items
+type UnfetchedItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exchange      string                 `protobuf:"bytes,1,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	SymbolToken   string                 `protobuf:"bytes,2,opt,name=symbol_token,json=symbolToken,proto3" json:"symbol_token,omitempty"`
+	Message       string                 `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	ErrorCode     string                 `protobuf:"bytes,4,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"` // from errorCode
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UnfetchedItem) Reset() {
+	*x = UnfetchedItem{}
+	mi := &file_broker_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UnfetchedItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UnfetchedItem) ProtoMessage() {}
+
+func (x *UnfetchedItem) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UnfetchedItem.ProtoReflect.Descriptor instead.
+func (*UnfetchedItem) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *UnfetchedItem) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *UnfetchedItem) GetSymbolToken() string {
+	if x != nil {
+		return x.SymbolToken
+	}
+	return ""
+}
+
+func (x *UnfetchedItem) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *UnfetchedItem) GetErrorCode() string {
+	if x != nil {
+		return x.ErrorCode
+	}
+	return ""
+}
+
+// --- GetLTP ---
+type GetLTPRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	AngelOneJwt string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"`
+	// Angel One uses "exchangeTokens": {"NSE": ["3045", "token2"], "BSE": ["token3"]}
+	// We'll keep using ExchangeTokenPair for this structure.
+	ExchangeTokens []*ExchangeTokenPair `protobuf:"bytes,2,rep,name=exchange_tokens,json=exchangeTokens,proto3" json:"exchange_tokens,omitempty"`
+	// Headers
+	ClientLocalIp  string `protobuf:"bytes,10,opt,name=client_local_ip,json=clientLocalIp,proto3" json:"client_local_ip,omitempty"`
+	ClientPublicIp string `protobuf:"bytes,11,opt,name=client_public_ip,json=clientPublicIp,proto3" json:"client_public_ip,omitempty"`
+	MacAddress     string `protobuf:"bytes,12,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetLTPRequest) Reset() {
+	*x = GetLTPRequest{}
+	mi := &file_broker_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLTPRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLTPRequest) ProtoMessage() {}
+
+func (x *GetLTPRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLTPRequest.ProtoReflect.Descriptor instead.
+func (*GetLTPRequest) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetLTPRequest) GetAngelOneJwt() string {
+	if x != nil {
+		return x.AngelOneJwt
+	}
+	return ""
+}
+
+func (x *GetLTPRequest) GetExchangeTokens() []*ExchangeTokenPair {
+	if x != nil {
+		return x.ExchangeTokens
+	}
+	return nil
+}
+
+func (x *GetLTPRequest) GetClientLocalIp() string {
+	if x != nil {
+		return x.ClientLocalIp
+	}
+	return ""
+}
+
+func (x *GetLTPRequest) GetClientPublicIp() string {
+	if x != nil {
+		return x.ClientPublicIp
+	}
+	return ""
+}
+
+func (x *GetLTPRequest) GetMacAddress() string {
+	if x != nil {
+		return x.MacAddress
+	}
+	return ""
+}
+
+type ExchangeTokenPair struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exchange      string                 `protobuf:"bytes,1,opt,name=exchange,proto3" json:"exchange,omitempty"`
+	Tokens        []string               `protobuf:"bytes,2,rep,name=tokens,proto3" json:"tokens,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ExchangeTokenPair) Reset() {
+	*x = ExchangeTokenPair{}
+	mi := &file_broker_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExchangeTokenPair) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExchangeTokenPair) ProtoMessage() {}
+
+func (x *ExchangeTokenPair) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExchangeTokenPair.ProtoReflect.Descriptor instead.
+func (*ExchangeTokenPair) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ExchangeTokenPair) GetExchange() string {
+	if x != nil {
+		return x.Exchange
+	}
+	return ""
+}
+
+func (x *ExchangeTokenPair) GetTokens() []string {
+	if x != nil {
+		return x.Tokens
+	}
+	return nil
+}
+
+type GetLTPResponse struct {
+	state         protoimpl.MessageState          `protogen:"open.v1"`
+	Status        bool                            `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                          `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Errorcode     string                          `protobuf:"bytes,3,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Data          *GetLTPResponse_LTPResponseData `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLTPResponse) Reset() {
+	*x = GetLTPResponse{}
+	mi := &file_broker_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLTPResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLTPResponse) ProtoMessage() {}
+
+func (x *GetLTPResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLTPResponse.ProtoReflect.Descriptor instead.
+func (*GetLTPResponse) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *GetLTPResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *GetLTPResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetLTPResponse) GetErrorcode() string {
+	if x != nil {
+		return x.Errorcode
+	}
+	return ""
+}
+
+func (x *GetLTPResponse) GetData() *GetLTPResponse_LTPResponseData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// --- GetFullQuote ---
+// Angel One's /quote endpoint in docs seems to be for a single symbol token per request in POST body.
+// The example you gave: "exchangeTokens": {"NSE": ["3045"]} suggests it *can* take a map,
+// but their /getTradeInfo often implies single symbol for a "full quote".
+// Let's assume it can take multiple tokens per exchange like LTP for consistency,
+// and the URL "quote/" (plural) might imply that. If not, we'll adjust.
+// The doc example for /getQuote (https://smartapi.angelbroking.com/docs/MarketData#getquote) shows payload for multiple.
+type GetFullQuoteRequest struct {
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	AngelOneJwt string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"`
+	// Uses the same exchange_tokens structure as GetLTPRequest
+	ExchangeTokens []*ExchangeTokenPair `protobuf:"bytes,2,rep,name=exchange_tokens,json=exchangeTokens,proto3" json:"exchange_tokens,omitempty"`
+	// Headers
+	ClientLocalIp  string `protobuf:"bytes,10,opt,name=client_local_ip,json=clientLocalIp,proto3" json:"client_local_ip,omitempty"`
+	ClientPublicIp string `protobuf:"bytes,11,opt,name=client_public_ip,json=clientPublicIp,proto3" json:"client_public_ip,omitempty"`
+	MacAddress     string `protobuf:"bytes,12,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetFullQuoteRequest) Reset() {
+	*x = GetFullQuoteRequest{}
+	mi := &file_broker_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFullQuoteRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFullQuoteRequest) ProtoMessage() {}
+
+func (x *GetFullQuoteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFullQuoteRequest.ProtoReflect.Descriptor instead.
+func (*GetFullQuoteRequest) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *GetFullQuoteRequest) GetAngelOneJwt() string {
+	if x != nil {
+		return x.AngelOneJwt
+	}
+	return ""
+}
+
+func (x *GetFullQuoteRequest) GetExchangeTokens() []*ExchangeTokenPair {
+	if x != nil {
+		return x.ExchangeTokens
+	}
+	return nil
+}
+
+func (x *GetFullQuoteRequest) GetClientLocalIp() string {
+	if x != nil {
+		return x.ClientLocalIp
+	}
+	return ""
+}
+
+func (x *GetFullQuoteRequest) GetClientPublicIp() string {
+	if x != nil {
+		return x.ClientPublicIp
+	}
+	return ""
+}
+
+func (x *GetFullQuoteRequest) GetMacAddress() string {
+	if x != nil {
+		return x.MacAddress
+	}
+	return ""
+}
+
+type GetFullQuoteResponse struct {
+	state         protoimpl.MessageState                      `protogen:"open.v1"`
+	Status        bool                                        `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                                      `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Errorcode     string                                      `protobuf:"bytes,3,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Data          *GetFullQuoteResponse_FullQuoteResponseData `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFullQuoteResponse) Reset() {
+	*x = GetFullQuoteResponse{}
+	mi := &file_broker_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFullQuoteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFullQuoteResponse) ProtoMessage() {}
+
+func (x *GetFullQuoteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFullQuoteResponse.ProtoReflect.Descriptor instead.
+func (*GetFullQuoteResponse) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetFullQuoteResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *GetFullQuoteResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetFullQuoteResponse) GetErrorcode() string {
+	if x != nil {
+		return x.Errorcode
+	}
+	return ""
+}
+
+func (x *GetFullQuoteResponse) GetData() *GetFullQuoteResponse_FullQuoteResponseData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// --- Logout ---
 type LogoutRequest struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	AngelOneJwt string                 `protobuf:"bytes,1,opt,name=angel_one_jwt,json=angelOneJwt,proto3" json:"angel_one_jwt,omitempty"` // For Authorization header
@@ -273,7 +2075,7 @@ type LogoutRequest struct {
 
 func (x *LogoutRequest) Reset() {
 	*x = LogoutRequest{}
-	mi := &file_broker_proto_msgTypes[3]
+	mi := &file_broker_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -285,7 +2087,7 @@ func (x *LogoutRequest) String() string {
 func (*LogoutRequest) ProtoMessage() {}
 
 func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_broker_proto_msgTypes[3]
+	mi := &file_broker_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -298,7 +2100,7 @@ func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
 func (*LogoutRequest) Descriptor() ([]byte, []int) {
-	return file_broker_proto_rawDescGZIP(), []int{3}
+	return file_broker_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *LogoutRequest) GetAngelOneJwt() string {
@@ -347,7 +2149,7 @@ type LogoutResponse struct {
 
 func (x *LogoutResponse) Reset() {
 	*x = LogoutResponse{}
-	mi := &file_broker_proto_msgTypes[4]
+	mi := &file_broker_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -359,7 +2161,7 @@ func (x *LogoutResponse) String() string {
 func (*LogoutResponse) ProtoMessage() {}
 
 func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_broker_proto_msgTypes[4]
+	mi := &file_broker_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +2174,7 @@ func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
 func (*LogoutResponse) Descriptor() ([]byte, []int) {
-	return file_broker_proto_rawDescGZIP(), []int{4}
+	return file_broker_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *LogoutResponse) GetStatus() bool {
@@ -394,6 +2196,110 @@ func (x *LogoutResponse) GetErrorcode() string {
 		return x.Errorcode
 	}
 	return ""
+}
+
+type GetLTPResponse_LTPResponseData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Fetched       []*LTPData             `protobuf:"bytes,1,rep,name=fetched,proto3" json:"fetched,omitempty"`
+	Unfetched     []*UnfetchedItem       `protobuf:"bytes,2,rep,name=unfetched,proto3" json:"unfetched,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLTPResponse_LTPResponseData) Reset() {
+	*x = GetLTPResponse_LTPResponseData{}
+	mi := &file_broker_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLTPResponse_LTPResponseData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLTPResponse_LTPResponseData) ProtoMessage() {}
+
+func (x *GetLTPResponse_LTPResponseData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLTPResponse_LTPResponseData.ProtoReflect.Descriptor instead.
+func (*GetLTPResponse_LTPResponseData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{22, 0}
+}
+
+func (x *GetLTPResponse_LTPResponseData) GetFetched() []*LTPData {
+	if x != nil {
+		return x.Fetched
+	}
+	return nil
+}
+
+func (x *GetLTPResponse_LTPResponseData) GetUnfetched() []*UnfetchedItem {
+	if x != nil {
+		return x.Unfetched
+	}
+	return nil
+}
+
+type GetFullQuoteResponse_FullQuoteResponseData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Fetched       []*FullQuoteData       `protobuf:"bytes,1,rep,name=fetched,proto3" json:"fetched,omitempty"`
+	Unfetched     []*UnfetchedItem       `protobuf:"bytes,2,rep,name=unfetched,proto3" json:"unfetched,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetFullQuoteResponse_FullQuoteResponseData) Reset() {
+	*x = GetFullQuoteResponse_FullQuoteResponseData{}
+	mi := &file_broker_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetFullQuoteResponse_FullQuoteResponseData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetFullQuoteResponse_FullQuoteResponseData) ProtoMessage() {}
+
+func (x *GetFullQuoteResponse_FullQuoteResponseData) ProtoReflect() protoreflect.Message {
+	mi := &file_broker_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetFullQuoteResponse_FullQuoteResponseData.ProtoReflect.Descriptor instead.
+func (*GetFullQuoteResponse_FullQuoteResponseData) Descriptor() ([]byte, []int) {
+	return file_broker_proto_rawDescGZIP(), []int{24, 0}
+}
+
+func (x *GetFullQuoteResponse_FullQuoteResponseData) GetFetched() []*FullQuoteData {
+	if x != nil {
+		return x.Fetched
+	}
+	return nil
+}
+
+func (x *GetFullQuoteResponse_FullQuoteResponseData) GetUnfetched() []*UnfetchedItem {
+	if x != nil {
+		return x.Unfetched
+	}
+	return nil
 }
 
 var File_broker_proto protoreflect.FileDescriptor
@@ -422,7 +2328,174 @@ const file_broker_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
 	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x12/\n" +
-	"\x04data\x18\x04 \x01(\v2\x1b.broker.AngelOneProfileDataR\x04data\"\xc7\x01\n" +
+	"\x04data\x18\x04 \x01(\v2\x1b.broker.AngelOneProfileDataR\x04data\"\x9a\x04\n" +
+	"\x11PlaceOrderRequest\x12\"\n" +
+	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12\x18\n" +
+	"\avariety\x18\x02 \x01(\tR\avariety\x12$\n" +
+	"\rtradingsymbol\x18\x03 \x01(\tR\rtradingsymbol\x12 \n" +
+	"\vsymboltoken\x18\x04 \x01(\tR\vsymboltoken\x12(\n" +
+	"\x0ftransactiontype\x18\x05 \x01(\tR\x0ftransactiontype\x12\x1a\n" +
+	"\bexchange\x18\x06 \x01(\tR\bexchange\x12\x1c\n" +
+	"\tordertype\x18\a \x01(\tR\tordertype\x12 \n" +
+	"\vproducttype\x18\b \x01(\tR\vproducttype\x12\x1a\n" +
+	"\bduration\x18\t \x01(\tR\bduration\x12\x14\n" +
+	"\x05price\x18\n" +
+	" \x01(\x01R\x05price\x12\x1c\n" +
+	"\tsquareoff\x18\v \x01(\x01R\tsquareoff\x12\x1a\n" +
+	"\bstoploss\x18\f \x01(\x01R\bstoploss\x12\x1a\n" +
+	"\bquantity\x18\r \x01(\x05R\bquantity\x12&\n" +
+	"\x0fclient_local_ip\x18\x14 \x01(\tR\rclientLocalIp\x12(\n" +
+	"\x10client_public_ip\x18\x15 \x01(\tR\x0eclientPublicIp\x12\x1f\n" +
+	"\vmac_address\x18\x16 \x01(\tR\n" +
+	"macAddress\"G\n" +
+	"\x13PlaceOrderAngelData\x12\x16\n" +
+	"\x06script\x18\x01 \x01(\tR\x06script\x12\x18\n" +
+	"\aorderid\x18\x02 \x01(\tR\aorderid\"\x95\x01\n" +
+	"\x12PlaceOrderResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x12/\n" +
+	"\x04data\x18\x04 \x01(\v2\x1b.broker.PlaceOrderAngelDataR\x04data\"\xdf\x01\n" +
+	"\x12CancelOrderRequest\x12\"\n" +
+	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12\x18\n" +
+	"\avariety\x18\x02 \x01(\tR\avariety\x12\x18\n" +
+	"\aorderid\x18\x03 \x01(\tR\aorderid\x12&\n" +
+	"\x0fclient_local_ip\x18\n" +
+	" \x01(\tR\rclientLocalIp\x12(\n" +
+	"\x10client_public_ip\x18\v \x01(\tR\x0eclientPublicIp\x12\x1f\n" +
+	"\vmac_address\x18\f \x01(\tR\n" +
+	"macAddress\"0\n" +
+	"\x14CancelOrderAngelData\x12\x18\n" +
+	"\aorderid\x18\x01 \x01(\tR\aorderid\"\x97\x01\n" +
+	"\x13CancelOrderResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x120\n" +
+	"\x04data\x18\x04 \x01(\v2\x1c.broker.CancelOrderAngelDataR\x04data\"\xc5\x04\n" +
+	"\x0fHoldingItemData\x12$\n" +
+	"\rtradingsymbol\x18\x01 \x01(\tR\rtradingsymbol\x12\x1a\n" +
+	"\bexchange\x18\x02 \x01(\tR\bexchange\x12\x12\n" +
+	"\x04isin\x18\x03 \x01(\tR\x04isin\x12\x1e\n" +
+	"\n" +
+	"t1quantity\x18\x04 \x01(\x05R\n" +
+	"t1quantity\x12*\n" +
+	"\x10realisedquantity\x18\x05 \x01(\x05R\x10realisedquantity\x12\x1a\n" +
+	"\bquantity\x18\x06 \x01(\x05R\bquantity\x12.\n" +
+	"\x12authorisedquantity\x18\a \x01(\x05R\x12authorisedquantity\x12\x18\n" +
+	"\aproduct\x18\b \x01(\tR\aproduct\x12.\n" +
+	"\x12collateralquantity\x18\t \x01(\x05R\x12collateralquantity\x12&\n" +
+	"\x0ecollateraltype\x18\n" +
+	" \x01(\tR\x0ecollateraltype\x12\x18\n" +
+	"\ahaircut\x18\v \x01(\x01R\ahaircut\x12\"\n" +
+	"\faverageprice\x18\f \x01(\x01R\faverageprice\x12\x10\n" +
+	"\x03ltp\x18\r \x01(\x01R\x03ltp\x12 \n" +
+	"\vsymboltoken\x18\x0e \x01(\tR\vsymboltoken\x12\x14\n" +
+	"\x05close\x18\x0f \x01(\x01R\x05close\x12$\n" +
+	"\rprofitandloss\x18\x10 \x01(\x01R\rprofitandloss\x12$\n" +
+	"\rpnlpercentage\x18\x11 \x01(\x01R\rpnlpercentage\"\xc7\x01\n" +
+	"\x11TotalHoldingValue\x12,\n" +
+	"\x11totalholdingvalue\x18\x01 \x01(\x01R\x11totalholdingvalue\x12$\n" +
+	"\rtotalinvvalue\x18\x02 \x01(\x01R\rtotalinvvalue\x12.\n" +
+	"\x12totalprofitandloss\x18\x03 \x01(\x01R\x12totalprofitandloss\x12.\n" +
+	"\x12totalpnlpercentage\x18\x04 \x01(\x01R\x12totalpnlpercentage\"\x8b\x01\n" +
+	"\x15PortfolioHoldingsData\x123\n" +
+	"\bholdings\x18\x01 \x03(\v2\x17.broker.HoldingItemDataR\bholdings\x12=\n" +
+	"\ftotalholding\x18\x02 \x01(\v2\x19.broker.TotalHoldingValueR\ftotalholding\"\xab\x01\n" +
+	"\x12GetHoldingsRequest\x12\"\n" +
+	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12&\n" +
+	"\x0fclient_local_ip\x18\n" +
+	" \x01(\tR\rclientLocalIp\x12(\n" +
+	"\x10client_public_ip\x18\v \x01(\tR\x0eclientPublicIp\x12\x1f\n" +
+	"\vmac_address\x18\f \x01(\tR\n" +
+	"macAddress\"\x98\x01\n" +
+	"\x13GetHoldingsResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x121\n" +
+	"\x04data\x18\x04 \x01(\v2\x1d.broker.PortfolioHoldingsDataR\x04data\"Q\n" +
+	"\x10SymbolIdentifier\x12\x1a\n" +
+	"\bexchange\x18\x01 \x01(\tR\bexchange\x12!\n" +
+	"\fsymbol_token\x18\x02 \x01(\tR\vsymbolToken\"\x81\x01\n" +
+	"\aLTPData\x12\x1a\n" +
+	"\bexchange\x18\x01 \x01(\tR\bexchange\x12%\n" +
+	"\x0etrading_symbol\x18\x02 \x01(\tR\rtradingSymbol\x12!\n" +
+	"\fsymbol_token\x18\x03 \x01(\tR\vsymbolToken\x12\x10\n" +
+	"\x03ltp\x18\x04 \x01(\x01R\x03ltp\"[\n" +
+	"\x0fMarketDepthItem\x12\x14\n" +
+	"\x05price\x18\x01 \x01(\x01R\x05price\x12\x1a\n" +
+	"\bquantity\x18\x02 \x01(\x05R\bquantity\x12\x16\n" +
+	"\x06orders\x18\x03 \x01(\x05R\x06orders\"e\n" +
+	"\vMarketDepth\x12)\n" +
+	"\x03buy\x18\x01 \x03(\v2\x17.broker.MarketDepthItemR\x03buy\x12+\n" +
+	"\x04sell\x18\x02 \x03(\v2\x17.broker.MarketDepthItemR\x04sell\"\x8b\x06\n" +
+	"\rFullQuoteData\x12\x1a\n" +
+	"\bexchange\x18\x01 \x01(\tR\bexchange\x12%\n" +
+	"\x0etrading_symbol\x18\x02 \x01(\tR\rtradingSymbol\x12!\n" +
+	"\fsymbol_token\x18\x03 \x01(\tR\vsymbolToken\x12\x10\n" +
+	"\x03ltp\x18\x04 \x01(\x01R\x03ltp\x12\x12\n" +
+	"\x04open\x18\x05 \x01(\x01R\x04open\x12\x12\n" +
+	"\x04high\x18\x06 \x01(\x01R\x04high\x12\x10\n" +
+	"\x03low\x18\a \x01(\x01R\x03low\x12\x14\n" +
+	"\x05close\x18\b \x01(\x01R\x05close\x12$\n" +
+	"\x0elast_trade_qty\x18\t \x01(\x03R\flastTradeQty\x12$\n" +
+	"\x0eexch_feed_time\x18\n" +
+	" \x01(\tR\fexchFeedTime\x12&\n" +
+	"\x0fexch_trade_time\x18\v \x01(\tR\rexchTradeTime\x12\x1d\n" +
+	"\n" +
+	"net_change\x18\f \x01(\x01R\tnetChange\x12%\n" +
+	"\x0epercent_change\x18\r \x01(\x01R\rpercentChange\x12\x1b\n" +
+	"\tavg_price\x18\x0e \x01(\x01R\bavgPrice\x12!\n" +
+	"\ftrade_volume\x18\x0f \x01(\x03R\vtradeVolume\x12!\n" +
+	"\fopn_interest\x18\x10 \x01(\x03R\vopnInterest\x12#\n" +
+	"\rlower_circuit\x18\x11 \x01(\x01R\flowerCircuit\x12#\n" +
+	"\rupper_circuit\x18\x12 \x01(\x01R\fupperCircuit\x12 \n" +
+	"\ftot_buy_quan\x18\x13 \x01(\x03R\n" +
+	"totBuyQuan\x12\"\n" +
+	"\rtot_sell_quan\x18\x14 \x01(\x03R\vtotSellQuan\x12+\n" +
+	"\x12fifty_two_week_low\x18\x15 \x01(\tR\x0ffiftyTwoWeekLow\x12-\n" +
+	"\x13fifty_two_week_high\x18\x16 \x01(\tR\x10fiftyTwoWeekHigh\x12)\n" +
+	"\x05depth\x18\x17 \x01(\v2\x13.broker.MarketDepthR\x05depth\"\x87\x01\n" +
+	"\rUnfetchedItem\x12\x1a\n" +
+	"\bexchange\x18\x01 \x01(\tR\bexchange\x12!\n" +
+	"\fsymbol_token\x18\x02 \x01(\tR\vsymbolToken\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\x12\x1d\n" +
+	"\n" +
+	"error_code\x18\x04 \x01(\tR\terrorCode\"\xea\x01\n" +
+	"\rGetLTPRequest\x12\"\n" +
+	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12B\n" +
+	"\x0fexchange_tokens\x18\x02 \x03(\v2\x19.broker.ExchangeTokenPairR\x0eexchangeTokens\x12&\n" +
+	"\x0fclient_local_ip\x18\n" +
+	" \x01(\tR\rclientLocalIp\x12(\n" +
+	"\x10client_public_ip\x18\v \x01(\tR\x0eclientPublicIp\x12\x1f\n" +
+	"\vmac_address\x18\f \x01(\tR\n" +
+	"macAddress\"G\n" +
+	"\x11ExchangeTokenPair\x12\x1a\n" +
+	"\bexchange\x18\x01 \x01(\tR\bexchange\x12\x16\n" +
+	"\x06tokens\x18\x02 \x03(\tR\x06tokens\"\x8f\x02\n" +
+	"\x0eGetLTPResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x12:\n" +
+	"\x04data\x18\x04 \x01(\v2&.broker.GetLTPResponse.LTPResponseDataR\x04data\x1aq\n" +
+	"\x0fLTPResponseData\x12)\n" +
+	"\afetched\x18\x01 \x03(\v2\x0f.broker.LTPDataR\afetched\x123\n" +
+	"\tunfetched\x18\x02 \x03(\v2\x15.broker.UnfetchedItemR\tunfetched\"\xf0\x01\n" +
+	"\x13GetFullQuoteRequest\x12\"\n" +
+	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12B\n" +
+	"\x0fexchange_tokens\x18\x02 \x03(\v2\x19.broker.ExchangeTokenPairR\x0eexchangeTokens\x12&\n" +
+	"\x0fclient_local_ip\x18\n" +
+	" \x01(\tR\rclientLocalIp\x12(\n" +
+	"\x10client_public_ip\x18\v \x01(\tR\x0eclientPublicIp\x12\x1f\n" +
+	"\vmac_address\x18\f \x01(\tR\n" +
+	"macAddress\"\xad\x02\n" +
+	"\x14GetFullQuoteResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode\x12F\n" +
+	"\x04data\x18\x04 \x01(\v22.broker.GetFullQuoteResponse.FullQuoteResponseDataR\x04data\x1a}\n" +
+	"\x15FullQuoteResponseData\x12/\n" +
+	"\afetched\x18\x01 \x03(\v2\x15.broker.FullQuoteDataR\afetched\x123\n" +
+	"\tunfetched\x18\x02 \x03(\v2\x15.broker.UnfetchedItemR\tunfetched\"\xc7\x01\n" +
 	"\rLogoutRequest\x12\"\n" +
 	"\rangel_one_jwt\x18\x01 \x01(\tR\vangelOneJwt\x12\x1f\n" +
 	"\vclient_code\x18\x02 \x01(\tR\n" +
@@ -434,11 +2507,17 @@ const file_broker_proto_rawDesc = "" +
 	"\x0eLogoutResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\bR\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1c\n" +
-	"\terrorcode\x18\x03 \x01(\tR\terrorcode2\x8d\x01\n" +
+	"\terrorcode\x18\x03 \x01(\tR\terrorcode2\xe6\x03\n" +
 	"\rBrokerService\x12C\n" +
 	"\n" +
 	"GetProfile\x12\x19.broker.GetProfileRequest\x1a\x1a.broker.GetProfileResponse\x127\n" +
-	"\x06Logout\x12\x15.broker.LogoutRequest\x1a\x16.broker.LogoutResponseB3Z1github.com/Sagar-v4/Angel-Two/protobuf/gen/brokerb\x06proto3"
+	"\x06Logout\x12\x15.broker.LogoutRequest\x1a\x16.broker.LogoutResponse\x12C\n" +
+	"\n" +
+	"PlaceOrder\x12\x19.broker.PlaceOrderRequest\x1a\x1a.broker.PlaceOrderResponse\x12F\n" +
+	"\vCancelOrder\x12\x1a.broker.CancelOrderRequest\x1a\x1b.broker.CancelOrderResponse\x12F\n" +
+	"\vGetHoldings\x12\x1a.broker.GetHoldingsRequest\x1a\x1b.broker.GetHoldingsResponse\x127\n" +
+	"\x06GetLTP\x12\x15.broker.GetLTPRequest\x1a\x16.broker.GetLTPResponse\x12I\n" +
+	"\fGetFullQuote\x12\x1b.broker.GetFullQuoteRequest\x1a\x1c.broker.GetFullQuoteResponseB3Z1github.com/Sagar-v4/Angel-Two/protobuf/gen/brokerb\x06proto3"
 
 var (
 	file_broker_proto_rawDescOnce sync.Once
@@ -452,25 +2531,75 @@ func file_broker_proto_rawDescGZIP() []byte {
 	return file_broker_proto_rawDescData
 }
 
-var file_broker_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_broker_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_broker_proto_goTypes = []any{
-	(*AngelOneProfileData)(nil), // 0: broker.AngelOneProfileData
-	(*GetProfileRequest)(nil),   // 1: broker.GetProfileRequest
-	(*GetProfileResponse)(nil),  // 2: broker.GetProfileResponse
-	(*LogoutRequest)(nil),       // 3: broker.LogoutRequest
-	(*LogoutResponse)(nil),      // 4: broker.LogoutResponse
+	(*AngelOneProfileData)(nil),                        // 0: broker.AngelOneProfileData
+	(*GetProfileRequest)(nil),                          // 1: broker.GetProfileRequest
+	(*GetProfileResponse)(nil),                         // 2: broker.GetProfileResponse
+	(*PlaceOrderRequest)(nil),                          // 3: broker.PlaceOrderRequest
+	(*PlaceOrderAngelData)(nil),                        // 4: broker.PlaceOrderAngelData
+	(*PlaceOrderResponse)(nil),                         // 5: broker.PlaceOrderResponse
+	(*CancelOrderRequest)(nil),                         // 6: broker.CancelOrderRequest
+	(*CancelOrderAngelData)(nil),                       // 7: broker.CancelOrderAngelData
+	(*CancelOrderResponse)(nil),                        // 8: broker.CancelOrderResponse
+	(*HoldingItemData)(nil),                            // 9: broker.HoldingItemData
+	(*TotalHoldingValue)(nil),                          // 10: broker.TotalHoldingValue
+	(*PortfolioHoldingsData)(nil),                      // 11: broker.PortfolioHoldingsData
+	(*GetHoldingsRequest)(nil),                         // 12: broker.GetHoldingsRequest
+	(*GetHoldingsResponse)(nil),                        // 13: broker.GetHoldingsResponse
+	(*SymbolIdentifier)(nil),                           // 14: broker.SymbolIdentifier
+	(*LTPData)(nil),                                    // 15: broker.LTPData
+	(*MarketDepthItem)(nil),                            // 16: broker.MarketDepthItem
+	(*MarketDepth)(nil),                                // 17: broker.MarketDepth
+	(*FullQuoteData)(nil),                              // 18: broker.FullQuoteData
+	(*UnfetchedItem)(nil),                              // 19: broker.UnfetchedItem
+	(*GetLTPRequest)(nil),                              // 20: broker.GetLTPRequest
+	(*ExchangeTokenPair)(nil),                          // 21: broker.ExchangeTokenPair
+	(*GetLTPResponse)(nil),                             // 22: broker.GetLTPResponse
+	(*GetFullQuoteRequest)(nil),                        // 23: broker.GetFullQuoteRequest
+	(*GetFullQuoteResponse)(nil),                       // 24: broker.GetFullQuoteResponse
+	(*LogoutRequest)(nil),                              // 25: broker.LogoutRequest
+	(*LogoutResponse)(nil),                             // 26: broker.LogoutResponse
+	(*GetLTPResponse_LTPResponseData)(nil),             // 27: broker.GetLTPResponse.LTPResponseData
+	(*GetFullQuoteResponse_FullQuoteResponseData)(nil), // 28: broker.GetFullQuoteResponse.FullQuoteResponseData
 }
 var file_broker_proto_depIdxs = []int32{
-	0, // 0: broker.GetProfileResponse.data:type_name -> broker.AngelOneProfileData
-	1, // 1: broker.BrokerService.GetProfile:input_type -> broker.GetProfileRequest
-	3, // 2: broker.BrokerService.Logout:input_type -> broker.LogoutRequest
-	2, // 3: broker.BrokerService.GetProfile:output_type -> broker.GetProfileResponse
-	4, // 4: broker.BrokerService.Logout:output_type -> broker.LogoutResponse
-	3, // [3:5] is the sub-list for method output_type
-	1, // [1:3] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0,  // 0: broker.GetProfileResponse.data:type_name -> broker.AngelOneProfileData
+	4,  // 1: broker.PlaceOrderResponse.data:type_name -> broker.PlaceOrderAngelData
+	7,  // 2: broker.CancelOrderResponse.data:type_name -> broker.CancelOrderAngelData
+	9,  // 3: broker.PortfolioHoldingsData.holdings:type_name -> broker.HoldingItemData
+	10, // 4: broker.PortfolioHoldingsData.totalholding:type_name -> broker.TotalHoldingValue
+	11, // 5: broker.GetHoldingsResponse.data:type_name -> broker.PortfolioHoldingsData
+	16, // 6: broker.MarketDepth.buy:type_name -> broker.MarketDepthItem
+	16, // 7: broker.MarketDepth.sell:type_name -> broker.MarketDepthItem
+	17, // 8: broker.FullQuoteData.depth:type_name -> broker.MarketDepth
+	21, // 9: broker.GetLTPRequest.exchange_tokens:type_name -> broker.ExchangeTokenPair
+	27, // 10: broker.GetLTPResponse.data:type_name -> broker.GetLTPResponse.LTPResponseData
+	21, // 11: broker.GetFullQuoteRequest.exchange_tokens:type_name -> broker.ExchangeTokenPair
+	28, // 12: broker.GetFullQuoteResponse.data:type_name -> broker.GetFullQuoteResponse.FullQuoteResponseData
+	15, // 13: broker.GetLTPResponse.LTPResponseData.fetched:type_name -> broker.LTPData
+	19, // 14: broker.GetLTPResponse.LTPResponseData.unfetched:type_name -> broker.UnfetchedItem
+	18, // 15: broker.GetFullQuoteResponse.FullQuoteResponseData.fetched:type_name -> broker.FullQuoteData
+	19, // 16: broker.GetFullQuoteResponse.FullQuoteResponseData.unfetched:type_name -> broker.UnfetchedItem
+	1,  // 17: broker.BrokerService.GetProfile:input_type -> broker.GetProfileRequest
+	25, // 18: broker.BrokerService.Logout:input_type -> broker.LogoutRequest
+	3,  // 19: broker.BrokerService.PlaceOrder:input_type -> broker.PlaceOrderRequest
+	6,  // 20: broker.BrokerService.CancelOrder:input_type -> broker.CancelOrderRequest
+	12, // 21: broker.BrokerService.GetHoldings:input_type -> broker.GetHoldingsRequest
+	20, // 22: broker.BrokerService.GetLTP:input_type -> broker.GetLTPRequest
+	23, // 23: broker.BrokerService.GetFullQuote:input_type -> broker.GetFullQuoteRequest
+	2,  // 24: broker.BrokerService.GetProfile:output_type -> broker.GetProfileResponse
+	26, // 25: broker.BrokerService.Logout:output_type -> broker.LogoutResponse
+	5,  // 26: broker.BrokerService.PlaceOrder:output_type -> broker.PlaceOrderResponse
+	8,  // 27: broker.BrokerService.CancelOrder:output_type -> broker.CancelOrderResponse
+	13, // 28: broker.BrokerService.GetHoldings:output_type -> broker.GetHoldingsResponse
+	22, // 29: broker.BrokerService.GetLTP:output_type -> broker.GetLTPResponse
+	24, // 30: broker.BrokerService.GetFullQuote:output_type -> broker.GetFullQuoteResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_broker_proto_init() }
@@ -484,7 +2613,7 @@ func file_broker_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_broker_proto_rawDesc), len(file_broker_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

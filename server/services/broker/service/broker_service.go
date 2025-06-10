@@ -77,3 +77,50 @@ func (s *BrokerServer) Logout(ctx context.Context, req *pb.LogoutRequest) (*pb.L
 	// The logoutResp from angelClient.LogoutUser is already a *pb.LogoutResponse
 	return logoutResp, nil
 }
+
+func (s *BrokerServer) PlaceOrder(ctx context.Context, req *pb.PlaceOrderRequest) (*pb.PlaceOrderResponse, error) {
+	log.Printf("Broker Service: PlaceOrder called for symbol: %s", req.Tradingsymbol)
+	if req.AngelOneJwt == "" { // Basic validation
+		return &pb.PlaceOrderResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	// Further validation of order parameters can be added here
+	return s.angelClient.PlaceOrder(req)
+}
+
+func (s *BrokerServer) CancelOrder(ctx context.Context, req *pb.CancelOrderRequest) (*pb.CancelOrderResponse, error) {
+	log.Printf("Broker Service: CancelOrder called for order ID: %s", req.Orderid)
+	if req.AngelOneJwt == "" {
+		return &pb.CancelOrderResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	return s.angelClient.CancelOrder(req)
+}
+
+func (s *BrokerServer) GetHoldings(ctx context.Context, req *pb.GetHoldingsRequest) (*pb.GetHoldingsResponse, error) {
+	log.Printf("Broker Service: GetHoldings called with AngelOneJWT: %.10s...", req.AngelOneJwt)
+	if req.AngelOneJwt == "" {
+		return &pb.GetHoldingsResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	return s.angelClient.GetHoldings(req)
+}
+
+func (s *BrokerServer) GetLTP(ctx context.Context, req *pb.GetLTPRequest) (*pb.GetLTPResponse, error) {
+	log.Printf("Broker Service: GetLTP called for %d exchange groups", len(req.ExchangeTokens))
+	if req.AngelOneJwt == "" {
+		return &pb.GetLTPResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	if len(req.ExchangeTokens) == 0 {
+		return &pb.GetLTPResponse{Status: false, Message: "No exchange tokens provided for LTP"}, nil
+	}
+	return s.angelClient.GetLTP(req)
+}
+
+func (s *BrokerServer) GetFullQuote(ctx context.Context, req *pb.GetFullQuoteRequest) (*pb.GetFullQuoteResponse, error) {
+	log.Printf("Broker Service: GetFullQuote called for %d exchange groups", len(req.ExchangeTokens))
+	if req.AngelOneJwt == "" {
+		return &pb.GetFullQuoteResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	if len(req.ExchangeTokens) == 0 {
+		return &pb.GetFullQuoteResponse{Status: false, Message: "No exchange tokens provided for Full Quote"}, nil
+	}
+	return s.angelClient.GetFullQuote(req)
+}

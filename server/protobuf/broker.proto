@@ -3,6 +3,7 @@ syntax = "proto3";
 package broker;
 option go_package = "github.com/Sagar-v4/Angel-Two/protobuf/gen/broker";
 
+// --- Profile Data ---
 message AngelOneProfileData {
     string clientcode = 1;
     string name = 2;
@@ -30,6 +31,246 @@ message GetProfileResponse {
     AngelOneProfileData data = 4;
 }
 
+// --- Order Placement ---
+message PlaceOrderRequest {
+    string angel_one_jwt = 1;
+    // Angel One Order Params
+    string variety = 2;
+    string tradingsymbol = 3;
+    string symboltoken = 4;
+    string transactiontype = 5;
+    string exchange = 6;
+    string ordertype = 7;
+    string producttype = 8;
+    string duration = 9;
+    double price = 10;
+    double squareoff = 11;
+    double stoploss = 12;
+    int32 quantity = 13;
+    // Optional params from docs like disclosedquantity, triggerprice, marketprotection, tag
+    // For simplicity, starting with core params. Add others as needed.
+
+    // Headers from API service if needed
+    string client_local_ip = 20;
+    string client_public_ip = 21;
+    string mac_address = 22;
+}
+
+message PlaceOrderAngelData { // Represents the "data" part of Angel One's place order response
+    string script = 1;
+    string orderid = 2;
+    // Add other fields from Angel One's "data" object if present and needed
+}
+
+message PlaceOrderResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    PlaceOrderAngelData data = 4;
+}
+
+// --- Cancel Order ---
+message CancelOrderRequest {
+    string angel_one_jwt = 1;
+    string variety = 2;
+    string orderid = 3;
+    // Headers
+    string client_local_ip = 10;
+    string client_public_ip = 11;
+    string mac_address = 12;
+}
+
+message CancelOrderAngelData { // Represents "data" for cancel order response
+    string orderid = 1;
+    // Add other fields if present
+}
+
+message CancelOrderResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    CancelOrderAngelData data = 4;
+}
+
+// --- Portfolio Holdings ---
+message HoldingItemData { // Renamed from HoldingData to avoid conflict if HoldingData becomes a wrapper
+    string tradingsymbol = 1;
+    string exchange = 2;
+    string isin = 3;
+    int32 t1quantity = 4;        // from JSON t1quantity
+    int32 realisedquantity = 5;  // from JSON realisedquantity
+    int32 quantity = 6;          // from JSON quantity
+    int32 authorisedquantity = 7;// from JSON authorisedquantity
+    string product = 8;
+    // collateralquantity and collateraltype can be null, handle as optional or string
+    // For simplicity, using string and checking for null during unmarshal if needed,
+    // or use google.protobuf.Int32Value for nullable integers if you add it.
+    // Protobuf basic types are not inherently nullable in proto3 unless wrapped.
+    // For now, let's try int32 for collateralquantity and see if nulls are treated as 0.
+    // If Angel sends 'null', and Go's json unmarshaller tries to put it into int32, it will error.
+    // A safer bet for fields that can be 'null' is to use string or wrapper types.
+    // Let's assume for now `collateralquantity` will be 0 if null.
+    int32 collateralquantity = 9; // from JSON collateralquantity (handle null)
+    string collateraltype = 10;   // from JSON collateraltype (handle null)
+    double haircut = 11;         // from JSON haircut
+    double averageprice = 12;
+    double ltp = 13;
+    string symboltoken = 14;
+    double close = 15;            // JSON close is a number
+    double profitandloss = 16;
+    double pnlpercentage = 17;
+    // Fields from previous HoldingData that were not in your new example are removed for clarity.
+    // Add them back if they can appear.
+    // string instrumenttype = ...;
+    // string lasttradeprice = ...;
+    // ... other previous fields
+}
+
+message TotalHoldingValue {
+    double totalholdingvalue = 1;
+    double totalinvvalue = 2;
+    double totalprofitandloss = 3;
+    double totalpnlpercentage = 4;
+}
+
+message PortfolioHoldingsData { // This is the new top-level "data" object for holdings
+    repeated HoldingItemData holdings = 1;
+    TotalHoldingValue totalholding = 2;
+}
+
+message GetHoldingsRequest {
+    string angel_one_jwt = 1;
+    string client_local_ip = 10;
+    string client_public_ip = 11;
+    string mac_address = 12;
+}
+
+message GetHoldingsResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    PortfolioHoldingsData data = 4; // <<< CHANGED to use the new wrapper
+}
+
+// --- Market Data ---
+
+// Common structure for identifying a symbol
+message SymbolIdentifier {
+    string exchange = 1;
+    string symbol_token = 2; // Angel One uses "symboltoken"
+}
+
+// For LTP Mode
+message LTPData {
+    string exchange = 1;
+    string trading_symbol = 2;
+    string symbol_token = 3;
+    double ltp = 4;
+}
+
+// For Depth (Buy/Sell Orders)
+message MarketDepthItem {
+    double price = 1;
+    int32 quantity = 2;
+    int32 orders = 3;
+}
+
+message MarketDepth {
+    repeated MarketDepthItem buy = 1;
+    repeated MarketDepthItem sell = 2;
+}
+
+// For Full Quote Mode
+message FullQuoteData {
+    string exchange = 1;
+    string trading_symbol = 2;
+    string symbol_token = 3;
+    double ltp = 4;
+    double open = 5;
+    double high = 6;
+    double low = 7;
+    double close = 8;
+    int64 last_trade_qty = 9;     // from lastTradeQty
+    string exch_feed_time = 10;   // from exchFeedTime
+    string exch_trade_time = 11;  // from exchTradeTime
+    double net_change = 12;       // from netChange
+    double percent_change = 13;   // from percentChange
+    double avg_price = 14;        // from avgPrice
+    int64 trade_volume = 15;      // from tradeVolume
+    int64 opn_interest = 16;      // from opnInterest
+    double lower_circuit = 17;    // from lowerCircuit
+    double upper_circuit = 18;    // from upperCircuit
+    int64 tot_buy_quan = 19;      // from totBuyQuan
+    int64 tot_sell_quan = 20;     // from totSellQuan
+    string fifty_two_week_low = 21; // from 52WeekLow (Angel sends as string/number, safer as string)
+    string fifty_two_week_high = 22;// from 52WeekHigh (Angel sends as string/number, safer as string)
+    MarketDepth depth = 23;
+}
+
+// Common structure for unfetched items
+message UnfetchedItem {
+    string exchange = 1;
+    string symbol_token = 2;
+    string message = 3;
+    string error_code = 4; // from errorCode
+}
+
+// --- GetLTP ---
+message GetLTPRequest {
+    string angel_one_jwt = 1;
+    // Angel One uses "exchangeTokens": {"NSE": ["3045", "token2"], "BSE": ["token3"]}
+    // We'll keep using ExchangeTokenPair for this structure.
+    repeated ExchangeTokenPair exchange_tokens = 2;
+    // Headers
+    string client_local_ip = 10;
+    string client_public_ip = 11;
+    string mac_address = 12;
+}
+message ExchangeTokenPair { // Re-define or ensure it's available
+    string exchange = 1;
+    repeated string tokens = 2;
+}
+
+message GetLTPResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    message LTPResponseData { // Corresponds to Angel One "data" object for LTP
+        repeated LTPData fetched = 1;
+        repeated UnfetchedItem unfetched = 2;
+    }
+    LTPResponseData data = 4;
+}
+
+// --- GetFullQuote ---
+// Angel One's /quote endpoint in docs seems to be for a single symbol token per request in POST body.
+// The example you gave: "exchangeTokens": {"NSE": ["3045"]} suggests it *can* take a map,
+// but their /getTradeInfo often implies single symbol for a "full quote".
+// Let's assume it can take multiple tokens per exchange like LTP for consistency,
+// and the URL "quote/" (plural) might imply that. If not, we'll adjust.
+// The doc example for /getQuote (https://smartapi.angelbroking.com/docs/MarketData#getquote) shows payload for multiple.
+message GetFullQuoteRequest {
+    string angel_one_jwt = 1;
+    // Uses the same exchange_tokens structure as GetLTPRequest
+    repeated ExchangeTokenPair exchange_tokens = 2;
+    // Headers
+    string client_local_ip = 10;
+    string client_public_ip = 11;
+    string mac_address = 12;
+}
+
+message GetFullQuoteResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    message FullQuoteResponseData { // Corresponds to Angel One "data" object for Full Quote
+        repeated FullQuoteData fetched = 1;
+        repeated UnfetchedItem unfetched = 2;
+    }
+    FullQuoteResponseData data = 4;
+}
+
+// --- Logout ---
 message LogoutRequest {
     string angel_one_jwt = 1;     // For Authorization header
     string client_code = 2;       // For the request body to Angel One
@@ -49,4 +290,9 @@ message LogoutResponse {
 service BrokerService {
     rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
     rpc Logout(LogoutRequest) returns (LogoutResponse);
+    rpc PlaceOrder(PlaceOrderRequest) returns (PlaceOrderResponse);
+    rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+    rpc GetHoldings(GetHoldingsRequest) returns (GetHoldingsResponse);
+    rpc GetLTP(GetLTPRequest) returns (GetLTPResponse);
+    rpc GetFullQuote(GetFullQuoteRequest) returns (GetFullQuoteResponse);
 }

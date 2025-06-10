@@ -63,6 +63,9 @@ func main() {
 	// Initialize Handlers
 	apiAuthHandler := handlers.NewAPIAuthHandler(authClientWrapper, brokerClientWrapper, cfg) // Pass both clients
 	profileHandler := handlers.NewProfileHandler(brokerClientWrapper, cfg)
+	orderHandler := handlers.NewOrderHandler(brokerClientWrapper)
+	portfolioHandler := handlers.NewPortfolioHandler(brokerClientWrapper)
+	marketHandler := handlers.NewMarketHandler(brokerClientWrapper)
 
 	// API Routes
 	apiGroup.POST("/login", apiAuthHandler.Login)
@@ -70,8 +73,25 @@ func main() {
 	apiGroup.POST("/logout", apiAuthHandler.Logout)
 	apiGroup.GET("/profile", profileHandler.GetProfile)
 
-	// You can add other routes here that will also have the AuthMiddleware applied
-	// e.g., apiGroup.GET("/profile", profileHandler.GetProfile)
+	// Order Routes
+	ordersGroup := apiGroup.Group("/orders") // Grouping order related routes
+	{
+		ordersGroup.POST("/place", orderHandler.PlaceOrder)
+		ordersGroup.POST("/cancel", orderHandler.CancelOrder)
+	}
+
+	// Portfolio Routes
+	portfolioGroup := apiGroup.Group("/portfolio")
+	{
+		portfolioGroup.GET("/holdings", portfolioHandler.GetHoldings)
+	}
+
+	// Market Data Routes
+	marketGroup := apiGroup.Group("/market")
+	{
+		marketGroup.POST("/ltp", marketHandler.GetLTP)
+		marketGroup.POST("/quote", marketHandler.GetFullQuote)
+	}
 
 	// HTTP Server
 	srv := &http.Server{

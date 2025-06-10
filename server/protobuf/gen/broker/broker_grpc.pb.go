@@ -19,8 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	BrokerService_GetProfile_FullMethodName = "/broker.BrokerService/GetProfile"
-	BrokerService_Logout_FullMethodName     = "/broker.BrokerService/Logout"
+	BrokerService_GetProfile_FullMethodName   = "/broker.BrokerService/GetProfile"
+	BrokerService_Logout_FullMethodName       = "/broker.BrokerService/Logout"
+	BrokerService_PlaceOrder_FullMethodName   = "/broker.BrokerService/PlaceOrder"
+	BrokerService_CancelOrder_FullMethodName  = "/broker.BrokerService/CancelOrder"
+	BrokerService_GetHoldings_FullMethodName  = "/broker.BrokerService/GetHoldings"
+	BrokerService_GetLTP_FullMethodName       = "/broker.BrokerService/GetLTP"
+	BrokerService_GetFullQuote_FullMethodName = "/broker.BrokerService/GetFullQuote"
 )
 
 // BrokerServiceClient is the client API for BrokerService service.
@@ -29,6 +34,11 @@ const (
 type BrokerServiceClient interface {
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileResponse, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
+	PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error)
+	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error)
+	GetHoldings(ctx context.Context, in *GetHoldingsRequest, opts ...grpc.CallOption) (*GetHoldingsResponse, error)
+	GetLTP(ctx context.Context, in *GetLTPRequest, opts ...grpc.CallOption) (*GetLTPResponse, error)
+	GetFullQuote(ctx context.Context, in *GetFullQuoteRequest, opts ...grpc.CallOption) (*GetFullQuoteResponse, error)
 }
 
 type brokerServiceClient struct {
@@ -59,12 +69,67 @@ func (c *brokerServiceClient) Logout(ctx context.Context, in *LogoutRequest, opt
 	return out, nil
 }
 
+func (c *brokerServiceClient) PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PlaceOrderResponse)
+	err := c.cc.Invoke(ctx, BrokerService_PlaceOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerServiceClient) CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelOrderResponse)
+	err := c.cc.Invoke(ctx, BrokerService_CancelOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerServiceClient) GetHoldings(ctx context.Context, in *GetHoldingsRequest, opts ...grpc.CallOption) (*GetHoldingsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetHoldingsResponse)
+	err := c.cc.Invoke(ctx, BrokerService_GetHoldings_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerServiceClient) GetLTP(ctx context.Context, in *GetLTPRequest, opts ...grpc.CallOption) (*GetLTPResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLTPResponse)
+	err := c.cc.Invoke(ctx, BrokerService_GetLTP_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerServiceClient) GetFullQuote(ctx context.Context, in *GetFullQuoteRequest, opts ...grpc.CallOption) (*GetFullQuoteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetFullQuoteResponse)
+	err := c.cc.Invoke(ctx, BrokerService_GetFullQuote_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BrokerServiceServer is the server API for BrokerService service.
 // All implementations must embed UnimplementedBrokerServiceServer
 // for forward compatibility.
 type BrokerServiceServer interface {
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileResponse, error)
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
+	PlaceOrder(context.Context, *PlaceOrderRequest) (*PlaceOrderResponse, error)
+	CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error)
+	GetHoldings(context.Context, *GetHoldingsRequest) (*GetHoldingsResponse, error)
+	GetLTP(context.Context, *GetLTPRequest) (*GetLTPResponse, error)
+	GetFullQuote(context.Context, *GetFullQuoteRequest) (*GetFullQuoteResponse, error)
 	mustEmbedUnimplementedBrokerServiceServer()
 }
 
@@ -80,6 +145,21 @@ func (UnimplementedBrokerServiceServer) GetProfile(context.Context, *GetProfileR
 }
 func (UnimplementedBrokerServiceServer) Logout(context.Context, *LogoutRequest) (*LogoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
+}
+func (UnimplementedBrokerServiceServer) PlaceOrder(context.Context, *PlaceOrderRequest) (*PlaceOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceOrder not implemented")
+}
+func (UnimplementedBrokerServiceServer) CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedBrokerServiceServer) GetHoldings(context.Context, *GetHoldingsRequest) (*GetHoldingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHoldings not implemented")
+}
+func (UnimplementedBrokerServiceServer) GetLTP(context.Context, *GetLTPRequest) (*GetLTPResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLTP not implemented")
+}
+func (UnimplementedBrokerServiceServer) GetFullQuote(context.Context, *GetFullQuoteRequest) (*GetFullQuoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFullQuote not implemented")
 }
 func (UnimplementedBrokerServiceServer) mustEmbedUnimplementedBrokerServiceServer() {}
 func (UnimplementedBrokerServiceServer) testEmbeddedByValue()                       {}
@@ -138,6 +218,96 @@ func _BrokerService_Logout_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BrokerService_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).PlaceOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_PlaceOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).PlaceOrder(ctx, req.(*PlaceOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BrokerService_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).CancelOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_CancelOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).CancelOrder(ctx, req.(*CancelOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BrokerService_GetHoldings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHoldingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).GetHoldings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_GetHoldings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).GetHoldings(ctx, req.(*GetHoldingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BrokerService_GetLTP_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLTPRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).GetLTP(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_GetLTP_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).GetLTP(ctx, req.(*GetLTPRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BrokerService_GetFullQuote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFullQuoteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).GetFullQuote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_GetFullQuote_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).GetFullQuote(ctx, req.(*GetFullQuoteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BrokerService_ServiceDesc is the grpc.ServiceDesc for BrokerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +322,26 @@ var BrokerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Logout",
 			Handler:    _BrokerService_Logout_Handler,
+		},
+		{
+			MethodName: "PlaceOrder",
+			Handler:    _BrokerService_PlaceOrder_Handler,
+		},
+		{
+			MethodName: "CancelOrder",
+			Handler:    _BrokerService_CancelOrder_Handler,
+		},
+		{
+			MethodName: "GetHoldings",
+			Handler:    _BrokerService_GetHoldings_Handler,
+		},
+		{
+			MethodName: "GetLTP",
+			Handler:    _BrokerService_GetLTP_Handler,
+		},
+		{
+			MethodName: "GetFullQuote",
+			Handler:    _BrokerService_GetFullQuote_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
