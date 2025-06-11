@@ -96,7 +96,8 @@ type AngelOneRawResponse struct {
 }
 
 func (c *Client) GetUserProfile(authToken, clientLocalIP, clientPublicIP, macAddress string) (*pb.GetProfileResponse, error) {
-	req, err := http.NewRequest("GET", profileURLPath, nil)
+	url := angelOneBaseURL + profileURLPath 
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Printf("AngelOne Client: Error creating request: %v", err)
 		return nil, fmt.Errorf("creating request to Angel One: %w", err)

@@ -4,6 +4,10 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
+  if(pathname === "/") {
+    return NextResponse.next();
+  }
+
   // --- Angel One Callback Handling ---
   if (pathname === "/angel1") {
     console.log("[Middleware] Intercepted Angel One callback at /angel1");
@@ -133,7 +137,7 @@ export async function middleware(request: NextRequest) {
       );
       const loginUrl = new URL("/", request.url); // Redirect to root login page
       // Optionally preserve the intended destination to redirect back after login
-      loginUrl.searchParams.set("redirect_to", pathname);
+      // loginUrl.searchParams.set("redirect_to", pathname);
       return NextResponse.redirect(loginUrl);
     }
     // Here, you could optionally verify the token by calling your Go API's /api/auth/verify endpoint

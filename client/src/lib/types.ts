@@ -73,3 +73,21 @@ export interface FullHoldingsResponse { // Matches GetHoldingsResponse from prot
   errorcode: string;
   data: PortfolioHoldingsData | null; // Data can be null if status is false
 }
+
+export interface AngelOneProfile { // Matches the "data" object in your profile response
+  clientcode: string;
+  name: string;
+  email: string;
+  mobileno: string;
+  exchanges: string[]; // This is a string representing an array, e.g., "[ \"NSE\", ... ]"
+  products: string[];  // This is also a string representing an array
+  lastlogintime: string;
+  brokerid: string; // From your example, it was "brokerid" not "broker"
+}
+
+export interface FullProfileResponse { // For the overall API response
+  status: boolean;
+  message: string;
+  errorcode: string;
+  data: AngelOneProfile | null;
+}
