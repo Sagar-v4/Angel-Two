@@ -78,6 +78,7 @@ func main() {
 	{
 		ordersGroup.POST("/place", orderHandler.PlaceOrder)
 		ordersGroup.POST("/cancel", orderHandler.CancelOrder)
+		ordersGroup.GET("/book", orderHandler.GetOrderBook)
 	}
 
 	// Portfolio Routes

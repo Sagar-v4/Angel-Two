@@ -23,6 +23,7 @@ const (
 	BrokerService_Logout_FullMethodName       = "/broker.BrokerService/Logout"
 	BrokerService_PlaceOrder_FullMethodName   = "/broker.BrokerService/PlaceOrder"
 	BrokerService_CancelOrder_FullMethodName  = "/broker.BrokerService/CancelOrder"
+	BrokerService_GetOrderBook_FullMethodName = "/broker.BrokerService/GetOrderBook"
 	BrokerService_GetHoldings_FullMethodName  = "/broker.BrokerService/GetHoldings"
 	BrokerService_GetLTP_FullMethodName       = "/broker.BrokerService/GetLTP"
 	BrokerService_GetFullQuote_FullMethodName = "/broker.BrokerService/GetFullQuote"
@@ -36,6 +37,7 @@ type BrokerServiceClient interface {
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*LogoutResponse, error)
 	PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error)
 	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error)
+	GetOrderBook(ctx context.Context, in *GetOrderBookRequest, opts ...grpc.CallOption) (*GetOrderBookResponse, error)
 	GetHoldings(ctx context.Context, in *GetHoldingsRequest, opts ...grpc.CallOption) (*GetHoldingsResponse, error)
 	GetLTP(ctx context.Context, in *GetLTPRequest, opts ...grpc.CallOption) (*GetLTPResponse, error)
 	GetFullQuote(ctx context.Context, in *GetFullQuoteRequest, opts ...grpc.CallOption) (*GetFullQuoteResponse, error)
@@ -89,6 +91,16 @@ func (c *brokerServiceClient) CancelOrder(ctx context.Context, in *CancelOrderRe
 	return out, nil
 }
 
+func (c *brokerServiceClient) GetOrderBook(ctx context.Context, in *GetOrderBookRequest, opts ...grpc.CallOption) (*GetOrderBookResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrderBookResponse)
+	err := c.cc.Invoke(ctx, BrokerService_GetOrderBook_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *brokerServiceClient) GetHoldings(ctx context.Context, in *GetHoldingsRequest, opts ...grpc.CallOption) (*GetHoldingsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetHoldingsResponse)
@@ -127,6 +139,7 @@ type BrokerServiceServer interface {
 	Logout(context.Context, *LogoutRequest) (*LogoutResponse, error)
 	PlaceOrder(context.Context, *PlaceOrderRequest) (*PlaceOrderResponse, error)
 	CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error)
+	GetOrderBook(context.Context, *GetOrderBookRequest) (*GetOrderBookResponse, error)
 	GetHoldings(context.Context, *GetHoldingsRequest) (*GetHoldingsResponse, error)
 	GetLTP(context.Context, *GetLTPRequest) (*GetLTPResponse, error)
 	GetFullQuote(context.Context, *GetFullQuoteRequest) (*GetFullQuoteResponse, error)
@@ -151,6 +164,9 @@ func (UnimplementedBrokerServiceServer) PlaceOrder(context.Context, *PlaceOrderR
 }
 func (UnimplementedBrokerServiceServer) CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelOrder not implemented")
+}
+func (UnimplementedBrokerServiceServer) GetOrderBook(context.Context, *GetOrderBookRequest) (*GetOrderBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrderBook not implemented")
 }
 func (UnimplementedBrokerServiceServer) GetHoldings(context.Context, *GetHoldingsRequest) (*GetHoldingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHoldings not implemented")
@@ -254,6 +270,24 @@ func _BrokerService_CancelOrder_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BrokerService_GetOrderBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderBookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServiceServer).GetOrderBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BrokerService_GetOrderBook_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServiceServer).GetOrderBook(ctx, req.(*GetOrderBookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BrokerService_GetHoldings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetHoldingsRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var BrokerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelOrder",
 			Handler:    _BrokerService_CancelOrder_Handler,
+		},
+		{
+			MethodName: "GetOrderBook",
+			Handler:    _BrokerService_GetOrderBook_Handler,
 		},
 		{
 			MethodName: "GetHoldings",

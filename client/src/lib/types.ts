@@ -91,3 +91,50 @@ export interface FullProfileResponse { // For the overall API response
   errorcode: string;
   data: AngelOneProfile | null;
 }
+
+export interface OrderBookItem {
+  variety: string;
+  ordertype: string;
+  producttype: string;
+  duration: string;
+  price: number; 
+  triggerprice: number; 
+  quantity: string; // Angel sends as string "1"
+  disclosedquantity: string;
+  squareoff: number; 
+  stoploss: number; 
+  trailingstoploss: number; 
+  tradingsymbol: string;
+  transactiontype: string;
+  exchange: string;
+  symboltoken: string | null;
+  instrumenttype: string;
+  strikeprice: number; 
+  optiontype: string;
+  expirydate: string;
+  lotsize: string;
+  cancelsize: string;
+  averageprice: number; 
+  filledshares: string;
+  unfilledshares: string;
+  orderid: string;
+  text: string;
+  status: string;
+  orderstatus: string;
+  updatetime: string;
+  exchtime: string;
+  exchorderupdatetime: string;
+  fillid: string;
+  filltime: string;
+  parentorderid: string;
+  uniqueorderid: string;
+  exchangeorderid: string;
+  ordertag?: string; // Optional if it's not always there
+}
+
+export interface FullOrderBookResponse {
+  status: boolean;
+  message: string;
+  errorcode: string;
+  data: OrderBookItem[] | null; // Data can be null or an empty array
+}

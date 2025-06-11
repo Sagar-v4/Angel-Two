@@ -92,6 +92,62 @@ message CancelOrderResponse {
     CancelOrderAngelData data = 4;
 }
 
+// --- Order Book ---
+message OrderBookItem {
+    string variety = 1;
+    string ordertype = 2;
+    string producttype = 3;
+    string duration = 4;
+    double price = 5;
+    double triggerprice = 6;
+    string quantity = 7;
+    string disclosedquantity = 8;
+    double squareoff = 9;
+    double stoploss = 10;
+    double trailingstoploss = 11;
+    string tradingsymbol = 12;
+    string transactiontype = 13;
+    string exchange = 14;
+    string symboltoken = 15;
+    string instrumenttype = 16;
+    double strikeprice = 17;
+    string optiontype = 18;
+    string expirydate = 19;
+    string lotsize = 20;
+    string cancelsize = 21;
+    double averageprice = 22;
+    string filledshares = 23;
+    string unfilledshares = 24;
+    string orderid = 25;
+    string text = 26;
+    string status = 27;
+    string orderstatus = 28;
+    string updatetime = 29;
+    string exchtime = 30;
+    string exchorderupdatetime = 31;
+    string fillid = 32;
+    string filltime = 33;
+    string parentorderid = 34;
+    string uniqueorderid = 35;
+    string exchangeorderid = 36;
+    string ordertag = 37;
+}
+
+message GetOrderBookRequest {
+    string angel_one_jwt = 1;
+    // Headers
+    string client_local_ip = 10;
+    string client_public_ip = 11;
+    string mac_address = 12;
+}
+
+message GetOrderBookResponse {
+    bool status = 1;
+    string message = 2;
+    string errorcode = 3;
+    repeated OrderBookItem data = 4; // Data is an array of order items, or null/empty if no orders
+}
+
 // --- Portfolio Holdings ---
 message HoldingItemData { // Renamed from HoldingData to avoid conflict if HoldingData becomes a wrapper
     string tradingsymbol = 1;
@@ -285,6 +341,7 @@ service BrokerService {
     rpc Logout(LogoutRequest) returns (LogoutResponse);
     rpc PlaceOrder(PlaceOrderRequest) returns (PlaceOrderResponse);
     rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+    rpc GetOrderBook(GetOrderBookRequest) returns (GetOrderBookResponse); 
     rpc GetHoldings(GetHoldingsRequest) returns (GetHoldingsResponse);
     rpc GetLTP(GetLTPRequest) returns (GetLTPResponse);
     rpc GetFullQuote(GetFullQuoteRequest) returns (GetFullQuoteResponse);

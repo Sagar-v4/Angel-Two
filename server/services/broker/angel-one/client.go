@@ -18,6 +18,7 @@ const (
 	logoutURLPath          = "/user/v1/logout"
 	placeOrderURLPath      = "/order/v1/placeOrder"
 	cancelOrderURLPath     = "/order/v1/cancelOrder"
+	orderBookURLPath       = "/order/v1/getOrderBook"
 	holdingsURLPath        = "/portfolio/v1/getAllHolding"
 	marketDataQuoteURLPath = "/market/v1/quote"
 )
@@ -96,7 +97,7 @@ type AngelOneRawResponse struct {
 }
 
 func (c *Client) GetUserProfile(authToken, clientLocalIP, clientPublicIP, macAddress string) (*pb.GetProfileResponse, error) {
-	url := angelOneBaseURL + profileURLPath 
+	url := angelOneBaseURL + profileURLPath
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Printf("AngelOne Client: Error creating request: %v", err)
@@ -376,6 +377,69 @@ func (c *Client) CancelOrder(reqData *pb.CancelOrderRequest) (*pb.CancelOrderRes
 		Message:   apiResponse.Message,
 		Errorcode: apiResponse.ErrorCode,
 		Data:      pbData,
+	}, nil
+}
+
+// --- Get Order Book ---
+// This struct matches Angel One's JSON structure for individual order items
+type AngelOneOrderBookRawResponse struct {
+	Status    bool                `json:"status"`
+	Message   string              `json:"message"`
+	ErrorCode string              `json:"errorcode"`
+	Data      []*pb.OrderBookItem `json:"data"` // <<< CHANGED to use the intermediate struct
+}
+
+func (c *Client) GetOrderBook(reqData *pb.GetOrderBookRequest) (*pb.GetOrderBookResponse, error) {
+	url := angelOneBaseURL + orderBookURLPath
+	httpReq, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return &pb.GetOrderBookResponse{Status: false, Message: "Failed to create getOrderBook request", Errorcode: "REQUEST_CREATION_ERROR"}, nil
+	}
+
+	c.setCommonHeaders(httpReq, reqData.AngelOneJwt, reqData.ClientLocalIp, reqData.ClientPublicIp, reqData.MacAddress)
+
+	res, body, err := c.doRequest(httpReq)
+	if err != nil {
+		if res != nil {
+			res.Body.Close()
+		}
+		return &pb.GetOrderBookResponse{Status: false, Message: "Failed to execute request to Angel One: " + err.Error(), Errorcode: "HTTP_EXECUTION_ERROR"}, nil
+	}
+	defer res.Body.Close()
+
+	var apiResponse AngelOneOrderBookRawResponse
+	if err := json.Unmarshal(body, &apiResponse); err != nil {
+		log.Printf("AngelOne Client (GetOrderBook): Error unmarshalling response: %v. Body: %s", err, string(body))
+		msg := "Failed to parse Angel One order book response"
+		if res.StatusCode != http.StatusOK {
+			msg = fmt.Sprintf("Angel One API Error: %s (and failed to parse body)", res.Status)
+		}
+		return &pb.GetOrderBookResponse{Status: false, Message: msg, Errorcode: "UNMARSHAL_ERROR"}, nil
+	}
+
+	// If Angel One itself reports a failure status in its JSON, reflect that.
+	// Even if data is null, status can be true.
+	if !apiResponse.Status {
+		log.Printf("AngelOne Client (GetOrderBook): Angel One API reported status:false. Message: %s, ErrorCode: %s", apiResponse.Message, apiResponse.ErrorCode)
+		// Still attempt to map Data if it exists (e.g. for unfetched items info, though order book doesn't have that structure)
+		var mappedData []*pb.OrderBookItem
+		if apiResponse.Data != nil { // Check if Data is not nil before trying to map
+			mappedData = make([]*pb.OrderBookItem, 0, len(apiResponse.Data)) // Initialize for safety
+			// Potentially map even on failure if some partial data is useful or expected
+		}
+		return &pb.GetOrderBookResponse{
+			Status:    false,
+			Message:   apiResponse.Message,
+			Errorcode: apiResponse.ErrorCode,
+			Data:      mappedData,
+		}, nil
+	}
+
+	return &pb.GetOrderBookResponse{
+		Status:    apiResponse.Status, // Should be true if we reach here
+		Message:   apiResponse.Message,
+		Errorcode: apiResponse.ErrorCode,
+		Data:      apiResponse.Data,
 	}, nil
 }
 

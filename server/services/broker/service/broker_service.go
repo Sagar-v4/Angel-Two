@@ -95,6 +95,14 @@ func (s *BrokerServer) CancelOrder(ctx context.Context, req *pb.CancelOrderReque
 	return s.angelClient.CancelOrder(req)
 }
 
+func (s *BrokerServer) GetOrderBook(ctx context.Context, req *pb.GetOrderBookRequest) (*pb.GetOrderBookResponse, error) {
+	log.Printf("Broker Service: GetOrderBook called with AngelOneJWT: %.10s...", req.AngelOneJwt)
+	if req.AngelOneJwt == "" {
+		return &pb.GetOrderBookResponse{Status: false, Message: "Missing Angel One JWT"}, nil
+	}
+	return s.angelClient.GetOrderBook(req)
+}
+
 func (s *BrokerServer) GetHoldings(ctx context.Context, req *pb.GetHoldingsRequest) (*pb.GetHoldingsResponse, error) {
 	log.Printf("Broker Service: GetHoldings called with AngelOneJWT: %.10s...", req.AngelOneJwt)
 	if req.AngelOneJwt == "" {

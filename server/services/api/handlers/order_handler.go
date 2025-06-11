@@ -99,3 +99,38 @@ func (h *OrderHandler) CancelOrder(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, resp)
 }
+
+// GET /api/orders/book
+func (h *OrderHandler) GetOrderBook(c *gin.Context) {
+	authStatus, _ := c.Get(middleware.AuthStatusKey)
+	if authStatus != "verified" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authentication required"})
+		return
+	}
+	angelTokensVal, _ := c.Get(middleware.VerifiedAngelTokensKey)
+	angelTokens, _ := angelTokensVal.([]string)
+	if len(angelTokens) == 0 {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Session token error"})
+		return
+	}
+
+	req := brokerpb.GetOrderBookRequest{
+		AngelOneJwt:    angelTokens[0], // Use the primary JWT
+		ClientLocalIp:  c.ClientIP(),
+		ClientPublicIp: c.GetHeader("X-Forwarded-For"), // Or other relevant header
+	}
+	if req.ClientPublicIp == "" {
+		req.ClientPublicIp = c.ClientIP()
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 15*time.Second)
+	defer cancel()
+
+	resp, err := h.brokerClient.Client.GetOrderBook(ctx, &req)
+	if err != nil {
+		log.Printf("GetOrderBook: gRPC error from Broker: %v", err)
+		c.JSON(http.StatusServiceUnavailable, gin.H{"error": "Failed to get order book via broker service"})
+		return
+	}
+	c.JSON(http.StatusOK, resp)
+}
