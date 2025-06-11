@@ -33,3 +33,43 @@ export interface TickerData extends MarketLTPData {
   previousLtp?: number;
   colorClass?: string; // For styling price changes
 }
+
+export interface HoldingItemData {
+  tradingsymbol: string;
+  exchange: string;
+  isin: string;
+  t1quantity: number;
+  realisedquantity: number;
+  quantity: number;
+  authorisedquantity: number;
+  product: string;
+  collateralquantity: number | null; // Can be null, handle appropriately
+  collateraltype: string | null;   // Can be null
+  haircut: number;
+  averageprice: number;
+  ltp: number;
+  symboltoken: string;
+  close: number;
+  profitandloss: number;
+  pnlpercentage: number;
+  // Add any other fields you expect or need from the HoldingItemData proto
+}
+
+export interface TotalHoldingValue {
+  totalholdingvalue: number;
+  totalinvvalue: number;
+  totalprofitandloss: number;
+  totalpnlpercentage: number;
+}
+
+export interface PortfolioHoldingsData {
+  holdings: HoldingItemData[];
+  totalholding: TotalHoldingValue;
+}
+
+export interface FullHoldingsResponse { // Matches GetHoldingsResponse from proto
+  status: boolean;
+  message: string;
+  errorcode: string;
+  data: PortfolioHoldingsData | null; // Data can be null if status is false
+}
