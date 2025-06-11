@@ -153,13 +153,6 @@ message GetHoldingsResponse {
 }
 
 // --- Market Data ---
-
-// Common structure for identifying a symbol
-message SymbolIdentifier {
-    string exchange = 1;
-    string symbol_token = 2; // Angel One uses "symboltoken"
-}
-
 // For LTP Mode
 message LTPData {
     string exchange = 1;

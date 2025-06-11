@@ -77,7 +77,7 @@ func (c *Client) doRequest(req *http.Request) (*http.Response, []byte, error) {
 		log.Printf("AngelOne Client: Error reading response body: %v", err)
 		return res, nil, fmt.Errorf("reading response body: %w", err)
 	}
-	log.Printf("AngelOne Client: Raw response status: %s, body snippet: %.100s...", res.Status, string(body))
+	log.Printf("AngelOne Client: Raw response status: %s, body snippet: %100s...", res.Status, string(body))
 
 	// No longer returning an error for non-200, as the caller will parse the AngelOne status/message from body.
 	// if res.StatusCode != http.StatusOK {
@@ -444,36 +444,45 @@ type AngelMarketDataPayload struct {
 }
 
 // --- GetLTP ---
-// Response structure for Angel One GetLTP API
-type AngelLTPDataResponse struct { // This is the "data" object within the main response
-	Fetched   []*pb.LTPData       `json:"fetched"`
-	Unfetched []*pb.UnfetchedItem `json:"unfetched"`
+type AngelLTPDataInternal struct { // Use this for unmarshalling the direct Angel One response
+	Exchange      string  `json:"exchange"`
+	TradingSymbol string  `json:"tradingSymbol"`
+	SymbolToken   string  `json:"symbolToken"`
+	Ltp           float64 `json:"ltp"`
 }
+
+type AngelLTPFetchedUnfetchedData struct {
+	Fetched   []AngelLTPDataInternal `json:"fetched"`   // Unmarshal into this internal struct
+	Unfetched []*pb.UnfetchedItem    `json:"unfetched"` // This can stay as pb.UnfetchedItem if its fields match
+}
+
 type AngelLTPRawResponse struct {
-	Status    bool                  `json:"status"`
-	Message   string                `json:"message"`
-	ErrorCode string                `json:"errorcode"`
-	Data      *AngelLTPDataResponse `json:"data"`
+	Status    bool                          `json:"status"`
+	Message   string                        `json:"message"`
+	ErrorCode string                        `json:"errorcode"`
+	Data      *AngelLTPFetchedUnfetchedData `json:"data"` // Changed to use the internal struct for 'fetched'
 }
 
 func (c *Client) GetLTP(reqData *pb.GetLTPRequest) (*pb.GetLTPResponse, error) {
-	url := angelOneBaseURL + marketDataQuoteURLPath // Using the /quote/ endpoint URL
+	url := angelOneBaseURL + marketDataQuoteURLPath
+	// ... (payload creation and httpReq setup, setCommonHeaders) ...
+	// ... as before ...
 	exchangeTokensMap := make(map[string][]string)
 	for _, pair := range reqData.ExchangeTokens {
 		exchangeTokensMap[pair.Exchange] = pair.Tokens
 	}
-	payload := AngelMarketDataPayload{
-		Mode:           "LTP", // Angel One specific mode string
+	payload := AngelMarketDataPayload{ // Assuming AngelMarketDataPayload is defined elsewhere correctly
+		Mode:           "LTP",
 		ExchangeTokens: exchangeTokensMap,
 	}
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
-		return nil, fmt.Errorf("marshalling GetLTP payload: %w", err)
+		return &pb.GetLTPResponse{Status: false, Message: "Failed to marshal LTP payload: " + err.Error()}, nil
 	}
 
 	httpReq, err := http.NewRequest("POST", url, bytes.NewBuffer(payloadBytes))
 	if err != nil {
-		return nil, fmt.Errorf("creating GetLTP request: %w", err)
+		return &pb.GetLTPResponse{Status: false, Message: "Failed to create LTP request: " + err.Error()}, nil
 	}
 	c.setCommonHeaders(httpReq, reqData.AngelOneJwt, reqData.ClientLocalIp, reqData.ClientPublicIp, reqData.MacAddress)
 
@@ -486,7 +495,7 @@ func (c *Client) GetLTP(reqData *pb.GetLTPRequest) (*pb.GetLTPResponse, error) {
 	}
 	defer res.Body.Close()
 
-	var apiResponse AngelLTPRawResponse
+	var apiResponse AngelLTPRawResponse // This uses AngelLTPFetchedUnfetchedData for its Data.Fetched field
 	if err := json.Unmarshal(body, &apiResponse); err != nil {
 		log.Printf("AngelOne Client (GetLTP): Error unmarshalling: %v. Body: %s", err, string(body))
 		msg := "Failed to parse Angel One LTP response"
@@ -496,16 +505,46 @@ func (c *Client) GetLTP(reqData *pb.GetLTPRequest) (*pb.GetLTPResponse, error) {
 		return &pb.GetLTPResponse{Status: false, Message: msg, Errorcode: "UNMARSHAL_ERROR"}, nil
 	}
 
+	// Check Angel One's own status field
+	if !apiResponse.Status {
+		log.Printf("AngelOne Client (GetLTP): Angel One API reported status:false. Message: %s, ErrorCode: %s", apiResponse.Message, apiResponse.ErrorCode)
+		// Even if status is false, Data might contain unfetched items.
+		var pbDataToReturn *pb.GetLTPResponse_LTPResponseData
+		if apiResponse.Data != nil {
+			pbDataToReturn = &pb.GetLTPResponse_LTPResponseData{
+				Fetched:   []*pb.LTPData{}, // Empty if Angel status is false but data field exists
+				Unfetched: apiResponse.Data.Unfetched,
+			}
+		}
+		return &pb.GetLTPResponse{
+			Status:    false,
+			Message:   apiResponse.Message,
+			Errorcode: apiResponse.ErrorCode,
+			Data:      pbDataToReturn,
+		}, nil
+	}
+
 	var pbLTPResponseData *pb.GetLTPResponse_LTPResponseData
 	if apiResponse.Data != nil {
+		// Manually map from AngelLTPDataInternal to pb.LTPData
+		fetchedPbData := make([]*pb.LTPData, len(apiResponse.Data.Fetched))
+		for i, internalItem := range apiResponse.Data.Fetched {
+			fetchedPbData[i] = &pb.LTPData{
+				Exchange:      internalItem.Exchange,
+				TradingSymbol: internalItem.TradingSymbol, // <<< Ensure mapping
+				SymbolToken:   internalItem.SymbolToken,   // <<< Ensure mapping
+				Ltp:           internalItem.Ltp,
+			}
+		}
+
 		pbLTPResponseData = &pb.GetLTPResponse_LTPResponseData{
-			Fetched:   apiResponse.Data.Fetched,
-			Unfetched: apiResponse.Data.Unfetched,
+			Fetched:   fetchedPbData,              // Use the mapped data
+			Unfetched: apiResponse.Data.Unfetched, // Assuming UnfetchedItem fields match proto
 		}
 	}
 
 	return &pb.GetLTPResponse{
-		Status:    apiResponse.Status,
+		Status:    apiResponse.Status, // Should be true if we reach here
 		Message:   apiResponse.Message,
 		Errorcode: apiResponse.ErrorCode,
 		Data:      pbLTPResponseData,
