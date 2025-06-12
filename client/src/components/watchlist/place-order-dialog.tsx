@@ -308,7 +308,7 @@ export function PlaceOrderDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden",
+          "sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden text-white",
           isBuy
             ? "bg-gradient-to-br from-green-900/20 via-slate-900 to-slate-900"
             : "bg-gradient-to-br from-red-900/20 via-slate-900 to-slate-900",
@@ -652,7 +652,7 @@ export function PlaceOrderDialog({
           <DialogClose asChild>
             <Button
               variant="outline"
-              className="border-slate-600 hover:bg-slate-700 hover:text-primary-foreground"
+              className="border-slate-600 hover:bg-slate-700 text-primary hover:text-primary-foreground"
             >
               Cancel
             </Button>

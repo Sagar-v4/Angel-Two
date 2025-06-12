@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose, // Import DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,10 +23,14 @@ import {
 } from "@/components/ui/select";
 import { Exchange, WatchlistItem } from "@/lib/types";
 import { toast } from "sonner";
+import { Info, ExternalLink } from "lucide-react";
 
 interface AddToWatchlistDialogProps {
   onAddToken: (item: WatchlistItem) => boolean; // Returns true if added, false if exists
 }
+
+const SYMBOL_TOKEN_INFO_URL =
+  "https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json";
 
 export function AddToWatchlistDialog({
   onAddToken,
@@ -93,8 +97,26 @@ export function AddToWatchlistDialog({
               value={token}
               onChange={(e) => setToken(e.target.value)}
               className="col-span-3 bg-slate-700 border-slate-600 focus:ring-sky-500"
-              placeholder="e.g., 3045"
+              placeholder="e.g., 3045 (for SBIN)"
             />
+          </div>
+          <div className="text-xs text-slate-400 flex items-center pr-1">
+            <Info size={12} className="mr-1 text-sky-500" />
+            <span>Use equty share tokens only.</span>
+          </div>
+          {/* Informational Link */}
+          <div className="text-xs text-slate-400 flex items-center pr-1">
+            <Info size={12} className="mr-1 text-sky-500" />
+            <span>Not sure about the token?</span>
+            <a
+              href={SYMBOL_TOKEN_INFO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-1 text-sky-400 hover:text-sky-300 underline flex items-center"
+            >
+              Find Symbol Tokens
+              <ExternalLink size={12} className="ml-0.5" />
+            </a>
           </div>
         </div>
         <DialogFooter>
