@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button'; // Adjust path if your ui components are elsewhere
+import { useState } from "react";
+import { Button } from "@/components/ui/button"; // Adjust path if your ui components are elsewhere
 import {
   Dialog,
   DialogContent,
@@ -11,39 +11,40 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose, // Import DialogClose
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Exchange, WatchlistItem } from '@/lib/types';
-import { toast } from "sonner"
-
+} from "@/components/ui/select";
+import { Exchange, WatchlistItem } from "@/lib/types";
+import { toast } from "sonner";
 
 interface AddToWatchlistDialogProps {
   onAddToken: (item: WatchlistItem) => boolean; // Returns true if added, false if exists
 }
 
-export function AddToWatchlistDialog({ onAddToken }: AddToWatchlistDialogProps) {
-  const [exchange, setExchange] = useState<Exchange>('NSE');
-  const [token, setToken] = useState('');
+export function AddToWatchlistDialog({
+  onAddToken,
+}: AddToWatchlistDialogProps) {
+  const [exchange, setExchange] = useState<Exchange>("NSE");
+  const [token, setToken] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleAdd = () => {
     if (!token.trim() || !/^\d+$/.test(token.trim())) {
       // alert('Please enter a valid numeric token.');
-       toast.error("Invalid Token");
+      toast.error("Invalid Token");
       return;
     }
     const success = onAddToken({ exchange, token: token.trim() });
     if (success) {
       toast.success("Token Added");
-      setToken(''); // Clear input
+      setToken(""); // Clear input
       setIsOpen(false); // Close dialog
     } else {
       toast.warning("Token Exists");
@@ -53,7 +54,9 @@ export function AddToWatchlistDialog({ onAddToken }: AddToWatchlistDialogProps) 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className='text-primary'>Add Symbol</Button>
+        <Button variant="outline" size="sm" className="text-primary">
+          Add Symbol
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-slate-800 border-slate-700 text-white">
         <DialogHeader>
@@ -96,9 +99,18 @@ export function AddToWatchlistDialog({ onAddToken }: AddToWatchlistDialogProps) 
         </div>
         <DialogFooter>
           <DialogClose asChild>
-             <Button variant="ghost" className="hover:bg-slate-700">Cancel</Button>
+            <Button
+              variant="ghost"
+              className="hover:bg-slate-700 hover:text-primary-foreground"
+            >
+              Cancel
+            </Button>
           </DialogClose>
-          <Button type="button" onClick={handleAdd} className="bg-sky-600 hover:bg-sky-700">
+          <Button
+            type="button"
+            onClick={handleAdd}
+            className="bg-sky-600 hover:bg-sky-700"
+          >
             Add Token
           </Button>
         </DialogFooter>
