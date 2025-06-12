@@ -32,11 +32,11 @@ const DepthRowContent = ({
             style={{ width: `${percentage}%` }}
           ></div>
           <span className="relative z-10">
-            {item.quantity.toLocaleString()}
+            {item.quantity?.toLocaleString()}
           </span>
         </div>
         <div className="text-left text-green-400 font-semibold tabular-nums">
-          {item.price.toFixed(2)}
+          {item.price?.toFixed(2)}
         </div>
       </>
     );
@@ -45,7 +45,7 @@ const DepthRowContent = ({
     return (
       <>
         <div className="text-right text-red-400 font-semibold tabular-nums">
-          {item.price.toFixed(2)}
+          {item.price?.toFixed(2)}
         </div>
         <div className="text-right text-slate-200 tabular-nums pl-2 relative">
           <div
@@ -53,7 +53,7 @@ const DepthRowContent = ({
             style={{ width: `${percentage}%` }}
           ></div>
           <span className="relative z-10">
-            {item.quantity.toLocaleString()}
+            {item.quantity?.toLocaleString()}
           </span>
         </div>
         <div className="text-right text-slate-400 tabular-nums pl-1">
@@ -197,10 +197,10 @@ export function MarketDepthDisplay({ depth, ltp }: MarketDepthDisplayProps) {
         {bids[0] && asks[0] && (
           <div className="text-center text-sm font-medium text-slate-300 mt-1 py-2 bg-slate-700/70 rounded">
             Bid:{" "}
-            <span className="text-green-400">{bids[0].price.toFixed(2)}</span>
+            <span className="text-green-400">{bids[0].price?.toFixed(2)}</span>
             <span className="text-slate-500 mx-1">|</span>
             Ask:{" "}
-            <span className="text-red-400">{asks[0].price.toFixed(2)}</span>
+            <span className="text-red-400">{asks[0].price?.toFixed(2)}</span>
           </div>
         )}
       </div>
